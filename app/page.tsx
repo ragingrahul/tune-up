@@ -14,7 +14,6 @@ const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
 
 export default function Home() {
   const [wallet,setWallet]=useState<WALLET>()
-
   const connectWallet=async()=>{
     try {
       const res=await runtimeConnector.connectWallet()
@@ -26,8 +25,8 @@ export default function Home() {
   }
   return (
     <main className="flex min-h-screen flex-col items-center h-[120vh]">
-      <Header />
-      <Main />
+      {/* {<Header />
+      <Main />} */}
       <div className='flex flex-col items-center'>
         <h1>Hello</h1>
       </div>

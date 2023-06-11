@@ -10,19 +10,19 @@ import {
 import Header from './components/Header';
 import Main from './components/Main';
 
-const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
+// const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
 
 export default function Home() {
   const [wallet,setWallet]=useState<WALLET>()
-  const connectWallet=async()=>{
-    try {
-      const res=await runtimeConnector.connectWallet()
-      setWallet(res.wallet)
-      return res.address
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  // const connectWallet=async()=>{
+  //   try {
+  //     const res=await runtimeConnector.connectWallet()
+  //     setWallet(res.wallet)
+  //     return res.address
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
   return (
     <main className="flex min-h-screen flex-col items-center h-[120vh]">
       {/* {<Header />

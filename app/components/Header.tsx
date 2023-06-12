@@ -1,9 +1,29 @@
 "use client"
-import React from 'react'
+import React,{useState} from 'react'
 import Image from 'next/image'
 import { CgProfile } from 'react-icons/cg'
+import {
+    RuntimeConnector,
+    Extension,
+    WALLET
+} from "@dataverse/runtime-connector";
+
+ const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
 
 function Header() {
+
+    const [wallet,setWallet]=useState<WALLET>()
+    const connectWallet = async () => {
+        try {
+            const res = await runtimeConnector.connectWallet()
+            setWallet(res.wallet)
+            console.log(res.address)
+            return res.address
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <nav className='sticky top-0 text-white bg-transparent backdrop-blur-lg w-full flex flex-row items-center p-3 justify-between'>
             <Image src="/TuneInLogo.png" alt='Logo' width={200} height={40} />
@@ -26,7 +46,7 @@ function Header() {
 
             <div className='text-2xl flex flex-row items-center'>
                 <CgProfile size={50} />
-                <div className='border border-gray-300 rounded-lg px-3 py-1 ml-3'>
+                <div className='border border-gray-300 rounded-lg px-3 py-1 ml-3' onClick={connectWallet}>
                     Connect
                 </div>
             </div>

@@ -1,5 +1,5 @@
 "use client"
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
 import Image from 'next/image'
 import { CgProfile } from 'react-icons/cg'
 import {
@@ -7,11 +7,12 @@ import {
     Extension,
     WALLET
 } from "@dataverse/runtime-connector";
+import { Context } from '../context';
 
- const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
+//const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
 
 function Header() {
-
+    const {runtimeConnector} = useContext(Context)
     const [wallet,setWallet]=useState<WALLET>()
     const connectWallet = async () => {
         try {

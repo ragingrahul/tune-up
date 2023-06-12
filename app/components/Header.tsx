@@ -5,22 +5,32 @@ import { CgProfile } from 'react-icons/cg'
 import {
     RuntimeConnector,
     Extension,
-    WALLET
+    WALLET,
+    RESOURCE
 } from "@dataverse/runtime-connector";
 import { DataverseContext } from '../../context/Context';
 
 //const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
+const app='Tuned Up'
 
 function Header() {
     //const {runtimeConnector} = useContext(DataverseContext)
     const [wallet,setWallet]=useState<WALLET>()
+    
     const connectWallet = async () => {
         try {
             const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
             const res = await runtimeConnector.connectWallet()
             setWallet(res.wallet)
             console.log(res.address)
-            return res.address
+            
+            const pkh=await runtimeConnector.createCapability({
+                app,
+                resource:RESOURCE.CERAMIC,
+                wallet,
+            })
+            console.log(pkh)
+            return pkh
         } catch (error) {
             console.error(error)
         }

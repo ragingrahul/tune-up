@@ -12,7 +12,7 @@ const videoDetails=[
 
 function Main() {
   return (
-    <div>
+    <div className='bg-black'>
       {
         videoDetails.map(video=><VideoCard videoName={video.videoName} authorName={video.authorName}/>)
       }

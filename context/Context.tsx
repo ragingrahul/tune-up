@@ -1,17 +1,30 @@
 "use client"
-import React from 'react'
+import React, { FC,ReactNode } from 'react'
 import { Extension,RuntimeConnector } from "@dataverse/runtime-connector";
 import {createContext,useEffect,useState} from "react"
 
 interface ContextType{
-    runtimeConnector:RuntimeConnector;
+    runtimeConnector:RuntimeConnector|undefined;
 }
 
 export const DataverseContext=createContext<ContextType>({} as ContextType)
 
-const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
+export const DataverseProvider = ({children}:any)=>{
 
+    const [runtimeConnector,setRuntimeConnector] =useState<RuntimeConnector>()
 
-export const contextStore={
-    runtimeConnector,
+    const createRuntimeConnector =async()=>{
+        const runtimeConnector=new RuntimeConnector(Extension)
+        setRuntimeConnector(runtimeConnector)
+    }
+
+    useEffect(()=>{
+        createRuntimeConnector()
+    },[])
+
+    return(
+        <DataverseContext.Provider value={{runtimeConnector}}>
+            {children}
+        </DataverseContext.Provider>
+    )
 }

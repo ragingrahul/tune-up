@@ -24,7 +24,7 @@ export default function Home() {
   //   }
   // }
   return (
-    <main className="flex min-h-screen flex-col items-center h-[120vh] font-RobotoMono">
+    <main className="flex h-max flex-col items-center  font-RobotoMono bg-black">
       <Header />
       <Main />
     </main>

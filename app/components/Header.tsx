@@ -14,7 +14,7 @@ import { DataverseContext } from '../../context/Context';
 const app = 'tunedin'
 
 function Header() {
-    const { runtimeConnector } = useContext(DataverseContext)
+    const { runtimeConnector,walletConnected,pkh,setWalletConnect,setPkh } = useContext(DataverseContext)
     const [wallet, setWallet] = useState<WALLET>()
 
     const connectWallet = async () => {
@@ -25,13 +25,18 @@ function Header() {
                 setWallet(res.wallet)
                 console.log(res.address)
 
-                const pkh = await runtimeConnector.createCapability({
+                const Pkh = await runtimeConnector.createCapability({
                     app,
                     resource: RESOURCE.CERAMIC,
                     wallet,
                 })
                 console.log(pkh)
-                return pkh
+                setWalletConnect(true)
+                setPkh(Pkh)
+                
+                console.log(walletConnected,pkh)
+                console.log(Pkh)
+                return Pkh
             }
 
         } catch (error) {

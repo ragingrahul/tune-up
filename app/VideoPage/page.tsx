@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import Header from '../components/Header'
-import { DataverseContext } from '@/context/Context'
+import { DataverseContext } from '@/app/context/Context'
 import {useContext} from 'react'
 
 function page() {

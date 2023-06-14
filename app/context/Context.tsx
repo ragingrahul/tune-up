@@ -7,7 +7,7 @@ interface ContextType{
     runtimeConnector:RuntimeConnector|undefined;
     walletConnected: boolean;
     setWalletConnect:Dispatch<SetStateAction<boolean>>;
-    pkh: string|undefined;
+    pkh: string;
     setPkh:Dispatch<SetStateAction<string>>;
 }
 
@@ -22,6 +22,7 @@ export const DataverseProvider = ({children}:any)=>{
     const createRuntimeConnector =async()=>{
         const runtimeConnector=new RuntimeConnector(Extension)
         setRuntimeConnector(runtimeConnector)
+        //console.log(runtimeConnector)
     }
 
     useEffect(()=>{

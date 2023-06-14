@@ -8,37 +8,30 @@ import {
     WALLET,
     RESOURCE
 } from "@dataverse/runtime-connector";
-import { DataverseContext } from '../../context/Context';
+import { DataverseContext } from '../context/Context';
+import { useWallet,useStream } from '../hooks';
+import { create } from 'domain';
 
 
 const app = 'tunedin'
 
 function Header() {
-    const { runtimeConnector,walletConnected,pkh,setWalletConnect,setPkh } = useContext(DataverseContext)
+    const {connectWallet}=useWallet()
+    const{
+        pkh,
+        createCapability,
+    }=useStream()
+    // const { runtimeConnector,walletConnected,pkh,setWalletConnect,setPkh } = useContext(DataverseContext)
     const [wallet, setWallet] = useState<WALLET>()
 
-    const connectWallet = async () => {
+    const connect = async () => {
         try {
-            // const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
-            if (runtimeConnector) {
-                const res = await runtimeConnector.connectWallet()
-                setWallet(res.wallet)
-                console.log(res.address)
-
-                const Pkh = await runtimeConnector.createCapability({
-                    app,
-                    resource: RESOURCE.CERAMIC,
-                    wallet,
-                })
-                console.log(pkh)
-                setWalletConnect(true)
-                setPkh(Pkh)
-                
-                console.log(walletConnected,pkh)
-                console.log(Pkh)
-                return Pkh
+            const {address,wallet} =await connectWallet()
+            if(wallet){
+                const pkh=await createCapability(wallet)
+                console.log("pkh:",pkh)
+                return pkh
             }
-
         } catch (error) {
             console.error(error)
         }
@@ -66,7 +59,7 @@ function Header() {
 
             <div className='text-2xl flex flex-row items-center'>
                 <CgProfile size={50} />
-                <div className='border border-gray-300 rounded-lg px-3 py-1 ml-3' onClick={connectWallet}>
+                <div className='border border-gray-300 rounded-lg px-3 py-1 ml-3' onClick={connect}>
                     Connect
                 </div>
             </div>

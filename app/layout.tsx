@@ -1,6 +1,6 @@
 import './globals.css'
 import { Inter, Roboto_Mono } from 'next/font/google'
-import { DataverseProvider } from '@/context/Context'
+import { DataverseProvider } from '@/app/context/Context'
 
 const inter = Inter({ subsets: ['latin'] })
 const roboto = Roboto_Mono({ subsets: ['latin'] })

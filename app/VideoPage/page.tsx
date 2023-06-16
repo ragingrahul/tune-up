@@ -8,6 +8,7 @@ import { useStream,useWallet } from '../hooks'
 function page() {
   const{connectWallet}=useWallet()
   const {
+    pkh,
     checkCapability
   }=useStream()
 
@@ -18,12 +19,14 @@ function page() {
 
   useEffect(()=>{
     checkingCapability()
-  },[])
+  },[pkh])
 
   return (
     <main className="flex min-h-screen flex-col items-center h-[120vh] font-RobotoMono">
       <Header />
-      
+      <button onClick={checkingCapability} className='text-white border'>
+        Connect
+      </button>
     </main>
   )
 }

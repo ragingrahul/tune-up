@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { CgProfile } from 'react-icons/cg'
 import {
@@ -39,6 +39,9 @@ function Header() {
             console.error(error)
         }
     }
+    useEffect(()=>{
+
+    },[pkh])
 
     return (
         <nav className='sticky top-0 text-white bg-transparent backdrop-blur-lg w-full flex flex-row items-center p-3 justify-between'>
@@ -63,7 +66,13 @@ function Header() {
             <div className='text-2xl flex flex-row items-center'>
                 <CgProfile size={50} />
                 <div className='border border-gray-300 rounded-lg px-3 py-1 ml-3' onClick={connect}>
-                    Connect
+                    {pkh?(
+                        pkh
+                    ):(
+                        <div>
+                            Connect
+                        </div>
+                    )}
                 </div>
             </div>
         </nav>

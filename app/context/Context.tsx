@@ -22,7 +22,6 @@ export const DataverseProvider = ({children}:any)=>{
     const createRuntimeConnector =async()=>{
         const runtimeConnector=new RuntimeConnector(Extension)
         setRuntimeConnector(runtimeConnector)
-        //console.log(runtimeConnector)
     }
 
     useEffect(()=>{

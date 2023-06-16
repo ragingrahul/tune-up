@@ -1,17 +1,29 @@
 "use client"
-import React from 'react'
+import React,{useEffect} from 'react'
 import Header from '../components/Header'
 import { DataverseContext } from '@/app/context/Context'
 import {useContext} from 'react'
+import { useStream,useWallet } from '../hooks'
 
 function page() {
-  const { runtimeConnector,walletConnected,pkh,setWalletConnect,setPkh } = useContext(DataverseContext)
-  console.log(walletConnected,pkh)
+  const{connectWallet}=useWallet()
+  const {
+    checkCapability
+  }=useStream()
+
+  const checkingCapability =async()=>{
+    const res=await checkCapability()
+    console.log(res)
+  }
+
+  useEffect(()=>{
+    checkingCapability()
+  },[])
+
   return (
     <main className="flex min-h-screen flex-col items-center h-[120vh] font-RobotoMono">
       <Header />
-      {walletConnected}
-      {pkh}
+      
     </main>
   )
 }

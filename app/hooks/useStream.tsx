@@ -10,6 +10,7 @@ export function useStream(){
 
     const checkCapability=async()=>{
         const res=await runtimeConnector?.checkCapability()
+        console.log(res)
         return res
     }
 

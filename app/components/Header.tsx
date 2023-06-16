@@ -20,6 +20,7 @@ function Header() {
     const{
         pkh,
         createCapability,
+        checkCapability
     }=useStream()
     // const { runtimeConnector,walletConnected,pkh,setWalletConnect,setPkh } = useContext(DataverseContext)
     const [wallet, setWallet] = useState<WALLET>()
@@ -30,6 +31,8 @@ function Header() {
             if(wallet){
                 const pkh=await createCapability(wallet)
                 console.log("pkh:",pkh)
+                const res=await checkCapability()
+                console.log("res:",res)
                 return pkh
             }
         } catch (error) {

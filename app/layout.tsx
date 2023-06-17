@@ -1,3 +1,4 @@
+"use client";
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
 import { DataverseProvider } from "@/app/context/Context";
@@ -18,10 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <DataverseProvider>
-      <html lang="en">
-        <body className={`${roboto.className} bg-black`}>{children}</body>
-      </html>
-    </DataverseProvider>
+    <Provider store={store}>
+      <DataverseProvider>
+        <html lang="en">
+          <body className={`${roboto.className} bg-black`}>{children}</body>
+        </html>
+      </DataverseProvider>
+    </Provider>
   );
 }

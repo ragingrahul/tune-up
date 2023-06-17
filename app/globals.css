@@ -27,3 +27,13 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.overlay {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    00deg,
+    rgba(0, 0, 0, 0.6782913849133403) 0%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}

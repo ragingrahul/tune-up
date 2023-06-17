@@ -20,7 +20,7 @@ function Main() {
       ))}
       <button
         className="bg-red-500 text-white p-2 rounded-md"
-        onClick={() => router.push("/VideoPage")}
+        onClick={() => router.push("/feed")}
       >
         Go to Videos
       </button>

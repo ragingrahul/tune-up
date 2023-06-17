@@ -23,7 +23,8 @@ function HomePage() {
         <h1 className="text-[75px] leading-[5rem] mt-24 text-white">
           We’re here to remind <br /> you that you’re not <br /> alone.
         </h1>
-        <div className="bg-white w-[350px] h-[80.7px] rounded-full flex items-center justify-center text-[#FF8080] text-[50px] hover:cursor-pointer mt-12">
+        <div className="bg-white w-[350px] h-[80.7px] rounded-full flex items-center justify-center text-[#FF8080] text-[50px] hover:cursor-pointer mt-12"
+          onClick={() => router.push("/feed")}>
           Connect
         </div>
       </div>

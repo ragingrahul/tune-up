@@ -1,19 +1,19 @@
-"use client"
-import Image from 'next/image'
-import React, { useState } from 'react';
+"use client";
+import Image from "next/image";
+import React, { useState } from "react";
 import {
   RuntimeConnector,
   Extension,
-  WALLET
+  WALLET,
 } from "@dataverse/runtime-connector";
-
-import Header from './components/Header';
-import Main from './components/Main';
+import HomePage from "./components/Home";
+import Header from "./components/Header";
+import Main from "./components/Main";
 
 // const runtimeConnector:RuntimeConnector=new RuntimeConnector(Extension)
 
 export default function Home() {
-  const [wallet,setWallet]=useState<WALLET>()
+  const [wallet, setWallet] = useState<WALLET>();
   // const connectWallet=async()=>{
   //   try {
   //     const res=await runtimeConnector.connectWallet()
@@ -24,9 +24,8 @@ export default function Home() {
   //   }
   // }
   return (
-    <main className="flex h-max flex-col items-center  font-RobotoMono bg-black">
-      <Header />
-      <Main />
+    <main>
+      <HomePage />
     </main>
-  )
+  );
 }

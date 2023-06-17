@@ -7,7 +7,7 @@ import { useStream, useWallet } from "../hooks";
 
 function page() {
   const { connectWallet } = useWallet();
-  const { checkCapability,loadStreams } = useStream();
+  const { checkCapability,loadStreams,createPublicStream } = useStream();
 
   const checkingCapability = async () => {
     const res = await checkCapability();
@@ -17,8 +17,13 @@ function page() {
   const loadTheStreams=async()=>{
     const res=await loadStreams({
       pkh:"did:pkh:eip155:1:0x2160D41c9D711Ca3fA7777211148538eeb431970",
-      modelId:"kjzl6hvfrbw6c7cp6xafsa7ghxh1yfw4bsub1363ehrxhi999vlpxny9k69uoxz"
+      modelId:"kjzl6hvfrbw6c7m1uurx8cfbb8v99wqie6rbi9j9dywn1690t9dxpvxjbtwq9q3"
     })
+  }
+
+  const createPosts=async()=>{
+    const res=await createPublicStream()
+    console.log(res);
   }
 
   useEffect(() => {
@@ -31,8 +36,11 @@ function page() {
       <button onClick={checkingCapability} className="text-white border m-3">
         Connect
       </button>
-      <button onClick={loadTheStreams} className="text-white border">
+      <button onClick={loadTheStreams} className="text-white border m-3">
         Load Streams
+      </button>
+      <button onClick={createPosts} className="text-white border m-3">
+        Make Profile
       </button>
     </main>
   );

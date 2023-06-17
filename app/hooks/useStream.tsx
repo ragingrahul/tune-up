@@ -55,16 +55,16 @@ export function useStream(){
 
       const createPublicStream = async() => {
         const res=await runtimeConnector?.createStream({
-            modelId:"kjzl6hvfrbw6c7cp6xafsa7ghxh1yfw4bsub1363ehrxhi999vlpxny9k69uoxz",
+            modelId:"kjzl6hvfrbw6c7m1uurx8cfbb8v99wqie6rbi9j9dywn1690t9dxpvxjbtwq9q3",
             streamContent:{
                 appVersion:'0.0.1',
-                text:'Hello There',
+                text:'Hyooka Here',
                 images:[
                     'https://bafkreib76wz6wewtkfmp5rhm3ep6tf4xjixvzzyh64nbyge5yhjno24yl4.ipfs.w3s.link',
                 ],
                 videos:[],
                 createdAt:new Date().toISOString(),
-                updatedAt:new Date().toISOString,
+                updatedAt:new Date().toISOString(),
                 encrypted,
             },
         })
@@ -78,6 +78,6 @@ export function useStream(){
         checkCapability,
         createCapability,
         loadStreams,
-
+        createPublicStream,
     }
 }

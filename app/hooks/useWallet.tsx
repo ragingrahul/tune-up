@@ -13,7 +13,7 @@ export function useWallet() {
       if (!getCurrentPkh()) {
         const res = await runtimeConnector?.connectWallet();
         setWallet(res?.wallet);
-        return res?.address;
+        return res;
       }
     } catch (error) {
       console.error(error);

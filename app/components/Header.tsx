@@ -28,12 +28,12 @@ function Header() {
 
   const connect = async () => {
     try {
-      const { address, wallet } = await connectWallet();
-      if (wallet) {
-        const pkh = await createCapability(wallet);
+      const res = await connectWallet();
+      if (res?.wallet) {
+        const pkh = await createCapability(res?.wallet);
         console.log("pkh:", pkh);
-        const res = await checkCapability();
-        console.log("res:", res);
+        const ress = await checkCapability();
+        console.log("res:", ress);
         if (pkh) setPkh(pkh);
         return pkh;
       }
@@ -41,7 +41,7 @@ function Header() {
       console.error(error);
     }
   };
-  useEffect(() => {}, [pkh]);
+  
 
   return (
     <nav className="sticky top-0 text-white bg-transparent backdrop-blur-lg w-full flex flex-row items-center p-3 justify-between">

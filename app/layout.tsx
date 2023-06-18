@@ -19,12 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Provider store={store}>
-      <DataverseProvider>
-        <html lang="en">
-          <body className={`${roboto.className} bg-black`}>{children}</body>
-        </html>
-      </DataverseProvider>
-    </Provider>
+    <DataverseProvider>
+      <html lang="en">
+        <body className={`${roboto.className} bg-black`}>{children}</body>
+      </html>
+    </DataverseProvider>
   );
 }

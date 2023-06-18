@@ -1,9 +1,6 @@
-"use client";
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
 import { DataverseProvider } from "@/app/context/Context";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto_Mono({ subsets: ["latin"] });

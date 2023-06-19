@@ -17,7 +17,7 @@ function page() {
   const loadTheStreams=async()=>{
     const res=await loadStreams({
       pkh:"did:pkh:eip155:1:0x2160D41c9D711Ca3fA7777211148538eeb431970",
-      modelId:"kjzl6hvfrbw6c7m1uurx8cfbb8v99wqie6rbi9j9dywn1690t9dxpvxjbtwq9q3"
+      modelId:"kjzl6hvfrbw6ca9medq5fn6gxsqs8ubia5zsduyudunenq9wpnhnpyrzmkrlkxg"
     })
   }
 

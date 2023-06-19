@@ -55,7 +55,7 @@ export function useStream(){
 
       const createPublicStream = async() => {
         const res=await runtimeConnector?.createStream({
-            modelId:"kjzl6hvfrbw6c7m1uurx8cfbb8v99wqie6rbi9j9dywn1690t9dxpvxjbtwq9q3",
+            modelId:"kjzl6hvfrbw6ca9medq5fn6gxsqs8ubia5zsduyudunenq9wpnhnpyrzmkrlkxg",
             streamContent:{
                 appVersion:'0.0.1',
                 text:'Hyooka Here',

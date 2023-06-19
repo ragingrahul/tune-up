@@ -10,10 +10,12 @@ export function useWallet() {
 
   const connectWallet = async () => {
     try {
-      if (!getCurrentPkh()) {
-        const res = await runtimeConnector?.connectWallet();
-        setWallet(res?.wallet);
-        return res;
+      const pkh=await getCurrentPkh()
+      if (!pkh) {
+          const  res  = await runtimeConnector?.connectWallet();
+          //updateUserInfo({ address, wallet });
+          console.log("Connect res:", res);
+          return res;
       }
     } catch (error) {
       console.error(error);

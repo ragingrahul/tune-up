@@ -9,7 +9,7 @@ function page() {
   const { connectWallet } = useWallet();
   const { checkCapability,loadStreams,createPublicStream } = useStream();
 
-  const checkingCapability = async () => {
+  const checkingCapability:any = async () => {
     const res = await checkCapability();
     console.log(res);
   };

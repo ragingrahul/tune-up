@@ -41,7 +41,7 @@ function HomePage() {
       }
     >
       <div className="flex flex-col justify-center w-screen xl:w-[50%] mt-20 h-full items-center xl:items-start xl:mt-0">
-        <Image src="/Logo.svg" width={500} height={500} alt="Logo" />
+        <Image src="/Logo.png" width={500} height={500} alt="Logo" />
         <h1 className="text-[75px] leading-[5rem] mt-24 text-white text-center xl:text-left">
           We’re here to remind <br /> you that you’re not <br /> alone.
         </h1>

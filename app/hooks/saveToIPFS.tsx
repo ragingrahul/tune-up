@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const saveToIPFS = async (file:any) => {
+export const saveToIPFS = async (file:any) => {
   // create a new multipart form data
   const formData = new FormData();
   // add file to the form data
@@ -22,4 +22,3 @@ const saveToIPFS = async (file:any) => {
   return response.data.cid;
 };
 
-export default saveToIPFS;

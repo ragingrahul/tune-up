@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import localFont from "next/font/local";
 import LikeButton from "./LikeButton";
 import { DataverseContext } from "@/app/context/Context";
-import { useWallet,useStream } from "../hooks";
+import { useWallet, useStream } from "../hooks";
 import VanillaTilt from "vanilla-tilt";
 
 const myFont = localFont({
@@ -18,9 +18,9 @@ function HomePage() {
   const [liked, setLiked] = React.useState(true);
   const imagePanel = useRef(null);
 
-  const { wallet, connectWallet,getCurrentPkh } = useWallet();
-  const {createCapability,checkCapability}=useStream()
-  const { runtimeConnector,setPkh } = useContext(DataverseContext);
+  const { wallet, connectWallet, getCurrentPkh } = useWallet();
+  const { createCapability, checkCapability } = useStream();
+  const { runtimeConnector, setPkh } = useContext(DataverseContext);
 
   const connect = async () => {
     try {
@@ -38,9 +38,7 @@ function HomePage() {
     }
   };
 
-  const handleLaunch=async () => {
-    
-  }
+  const handleLaunch = async () => {};
 
   useEffect(() => {
     connect();

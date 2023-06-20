@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import localFont from "next/font/local";
 import LikeButton from "./LikeButton";
 import { DataverseContext } from "@/app/context/Context";
-import { useWallet } from "../hooks";
+import { useWallet,useStream } from "../hooks";
 import VanillaTilt from "vanilla-tilt";
 
 const myFont = localFont({
@@ -18,11 +18,32 @@ function HomePage() {
   const [liked, setLiked] = React.useState(true);
   const imagePanel = useRef(null);
 
-  const { wallet, connectWallet } = useWallet();
-  const { runtimeConnector } = useContext(DataverseContext);
+  const { wallet, connectWallet,getCurrentPkh } = useWallet();
+  const {createCapability,checkCapability}=useStream()
+  const { runtimeConnector,setPkh } = useContext(DataverseContext);
+
+  const connect = async () => {
+    try {
+      const res = await connectWallet();
+      if (res?.wallet) {
+        const pkh = await createCapability(res?.wallet);
+        console.log("pkh:", pkh);
+        const ress = await checkCapability();
+        console.log("res:", ress);
+        if (pkh) setPkh(pkh);
+        return pkh;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLaunch=async () => {
+    
+  }
 
   useEffect(() => {
-    connectWallet();
+    connect();
   }, [runtimeConnector]);
 
   useEffect(() => {
@@ -47,7 +68,7 @@ function HomePage() {
         </h1>
         <div
           className="bg-white w-[350px] h-[80.7px] rounded-full flex items-center justify-center text-[#FF8080] text-[50px] hover:cursor-pointer mt-12"
-          onClick={connectWallet}
+          onClick={connect}
         >
           Launch
         </div>

@@ -1,10 +1,11 @@
 "use client"
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import localFont from 'next/font/local';
 import Image from 'next/image';
 import { BiPlus } from 'react-icons/bi'
 import styles from '../Main.module.css'
-import { useStream,saveToIPFS } from '../hooks';
+import { useStream,saveToIPFS,useWallet } from '../hooks';
+import { DataverseContext } from '../context/Context';
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -14,12 +15,30 @@ const myFont = localFont({
 type GenderType = "Male" | "Female"
 
 function page() {
+  const {runtimeConnector}=useContext(DataverseContext)
+  const {checkCapability}=useStream()
+  const {getCurrentPkh}=useWallet()
   const [avatar, setAvatar] = useState<File>()
   const [name,setName]=useState<string>()
   const [age,setAge]=useState<string>()
   const [bio,setBio]=useState<string>()
   const avatarRef = useRef<HTMLInputElement>(null)
   const [gender, setGender] = useState<GenderType | null>(null)
+
+  const uploadPicture=async()=>{
+    const cid=await saveToIPFS(avatar)
+    console.log(cid)
+    return cid
+  }
+
+  const handleSubmit=async()=>{
+
+  }
+
+  useEffect(()=>{
+    checkCapability()
+    getCurrentPkh()
+  },[runtimeConnector])
 
   return (
     <div
@@ -106,7 +125,10 @@ function page() {
             </div>
             <div className='text-white text-4xl'>Female</div>
           </div>
-          <div className='bg-white text-[#FF8080] w-fit m-2 p-3 text-4xl rounded-full hover:cursor-pointer'>
+          <div 
+            className='bg-white text-[#FF8080] w-fit m-2 p-3 text-4xl rounded-full hover:cursor-pointer'
+            onClick={uploadPicture}
+          >
             Create Profile
           </div>
         </div>

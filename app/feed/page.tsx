@@ -8,6 +8,7 @@ import { useStream, useWallet } from "../hooks";
 function page() {
   const { connectWallet } = useWallet();
   const { checkCapability,loadStreams,createPublicStream } = useStream();
+  const {runtimeConnector}=useContext(DataverseContext);
 
   const checkingCapability:any = async () => {
     const res = await checkCapability();
@@ -28,7 +29,7 @@ function page() {
 
   useEffect(() => {
     checkingCapability();
-  }, []);
+  }, [runtimeConnector]);
 
   return (
     <main className="flex min-h-screen flex-col items-center h-[120vh] font-RobotoMono">

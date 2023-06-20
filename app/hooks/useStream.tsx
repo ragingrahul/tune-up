@@ -22,7 +22,7 @@ export function useStream(){
 
     const createCapability=async(wallet:WALLET)=>{
         const currentPkh=await runtimeConnector?.createCapability({
-            app:"tunedin",
+            app:"tuned",
             wallet,
         })
         if(currentPkh)

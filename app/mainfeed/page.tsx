@@ -1,9 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect,useState,useContext } from "react";
 import Image from "next/image";
 import LikeButton from "../components/LikeButton";
 import localFont from "next/font/local";
 import ProfileCard from "../components/ProfileCard";
+import { useStream,useWallet } from "../hooks";
+import { DataverseContext } from "../context/Context";
+import { objectToArray } from "../utils/address";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -23,7 +26,40 @@ const profiles = [
   },
 ];
 
+
+
 function page() {
+  const {loadStreams,checkCapability}=useStream()
+  const {getCurrentPkh}=useWallet()
+  const {runtimeConnector}=React.useContext(DataverseContext);
+  const [profile,setProfile] = useState<Object>()
+  const [pkh,setPkh]=useState<string>()
+  const [profileArray,setProfileArray] = useState<any>()
+  
+  const getProfiles=async()=>{
+    const res=await loadStreams({
+      modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3"
+    })
+    setProfile(res)
+    const result=objectToArray(res)
+    console.log(result)
+    setProfileArray(result)
+  }
+
+  const isConnected=async()=>{
+    const res=await checkCapability()
+    if(res){
+      const pkh=await getCurrentPkh()
+      setPkh(pkh)
+      console.log(pkh)
+    }
+    return res
+  }
+
+  useEffect(()=>{
+    getProfiles()
+  },[runtimeConnector])
+
   return (
     <div
       className={
@@ -32,14 +68,15 @@ function page() {
       }
     >
       <div className="flex flex-col items-center w-screen mt-16 h-fit bg-[#FF8080] pb-32">
-        {profiles.map((profile) => (
+        {profileArray?.map((profile:any) => (
           <ProfileCard
             name={profile.name}
             age={profile.age}
-            image={profile.image}
+            image={profile.images[0]}
           />
         ))}
       </div>
+
 
       <div className="fixed backdrop-filter top-3 rounded-2xl hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-[#ff8080] w-[450px] h-[75px] bg-white-900/20 backdrop-blur-[10px] flex justify-center items-center">
         <Image

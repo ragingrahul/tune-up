@@ -26,13 +26,13 @@ function ProfileCard(props: ProfileCardProps) {
         myFont.className
       }
     >
-      <Image
+      <img
         src={props.image}
         width={1000}
         height={100}
         alt="picture"
         className="object-cover h-[100%] rounded-[40px]"
-      ></Image>
+      />
       <div className="h-[100%] w-[500px] bg-black absolute top-0 rounded-[40px] overlay"></div>
       <div className="h-[100%] w-[100%] absolute top-0 flex flex-col justify-between">
         <div className="flex justify-between p-8">

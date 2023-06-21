@@ -61,13 +61,37 @@ function page() {
         </div>
       </div>
 
-      <div className="fixed backdrop-filter w-[80%] h-[75px] bg-white-900/20 backdrop-blur-[10px] flex justify-center items-center">
+      <div className="fixed backdrop-filter top-3 rounded-2xl hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-[#ff8080] w-[450px] h-[75px] bg-white-900/20 backdrop-blur-[10px] flex justify-center items-center">
         <Image
           src="/Logo.png"
           width={200}
           height={200}
           alt="Logo"
           className=""
+        />
+      </div>
+
+      <div className="fixed backdrop-filter hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-white bottom-3 w-[400px] h-[80px] bg-slate-50/20 backdrop-blur-[10px] rounded-3xl flex justify-between items-center">
+        <Image
+          src="/ProfileIcon.svg"
+          width={60}
+          height={200}
+          alt="Logo"
+          className="ml-10 hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
+        />
+        <Image
+          src="/LikeIcon.svg"
+          width={60}
+          height={200}
+          alt="Logo"
+          className="hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
+        />
+        <Image
+          src="/ChatIcon.svg"
+          width={60}
+          height={200}
+          alt="Logo"
+          className="mr-10 hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
         />
       </div>
     </div>

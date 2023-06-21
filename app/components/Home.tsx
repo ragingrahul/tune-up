@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useState,useContext, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import localFont from "next/font/local";
@@ -17,10 +17,11 @@ function HomePage() {
   const router = useRouter();
   const [liked, setLiked] = React.useState(true);
   const imagePanel = useRef(null);
+  const [pkh,setPkh]=useState<string|undefined>()
 
   const { wallet, connectWallet,getCurrentPkh } = useWallet();
-  const {createCapability,checkCapability}=useStream()
-  const { runtimeConnector,setPkh } = useContext(DataverseContext);
+  const {createCapability,checkCapability,loadStreams}=useStream()
+  const { runtimeConnector} = useContext(DataverseContext);
 
   const connect = async () => {
     try {
@@ -33,13 +34,28 @@ function HomePage() {
         if (pkh) setPkh(pkh);
         return pkh;
       }
+      else{
+        const pkh=await getCurrentPkh()
+        setPkh(pkh);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleLaunch=async () => {
-    
+    try {
+      if(!pkh)
+        console.log("Connect 1st")
+      // console.log(pkh)
+      const res=await loadStreams({
+        pkh:pkh,
+        modelId:"kjzl6hvfrbw6ca9medq5fn6gxsqs8ubia5zsduyudunenq9wpnhnpyrzmkrlkxg"
+      })
+      console.log(res)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
@@ -68,7 +84,7 @@ function HomePage() {
         </h1>
         <div
           className="bg-white w-[350px] h-[80.7px] rounded-full flex items-center justify-center text-[#FF8080] text-[50px] hover:cursor-pointer mt-12"
-          onClick={connect}
+          onClick={handleLaunch }
         >
           Launch
         </div>

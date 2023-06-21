@@ -9,9 +9,8 @@ export function useStream(){
     const[streamsRecord,setStreamsRecord]=useState<StreamContent>({})
 
     const encrypted=JSON.stringify({
-        text:false,
+        name:false,
         images:false,
-        videos:false,
     })
 
     const checkCapability=async()=>{
@@ -22,7 +21,7 @@ export function useStream(){
 
     const createCapability=async(wallet:WALLET)=>{
         const currentPkh=await runtimeConnector?.createCapability({
-            app:"tuned",
+            app:"matchin",
             wallet,
         })
         if(currentPkh)
@@ -55,16 +54,19 @@ export function useStream(){
 
       const createPublicStream = async() => {
         const res=await runtimeConnector?.createStream({
-            modelId:"kjzl6hvfrbw6ca9medq5fn6gxsqs8ubia5zsduyudunenq9wpnhnpyrzmkrlkxg",
+            modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3",
             streamContent:{
                 appVersion:'0.0.1',
-                text:'Hyooka Here',
+                name:'RagingRahul',
+                description:'LoverBoy in the house',
                 images:[
-                    'https://bafkreib76wz6wewtkfmp5rhm3ep6tf4xjixvzzyh64nbyge5yhjno24yl4.ipfs.w3s.link',
+                    'https://bafybeidycxvmcx2bywz3c6ipunk7iajimqekzfjya74birawk6mkrdtuhu.ipfs.w3s.link',
                 ],
-                videos:[],
-                createdAt:new Date().toISOString(),
-                updatedAt:new Date().toISOString(),
+                gender:'male',
+                age:21,
+                addresses:[],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
                 encrypted,
             },
         })

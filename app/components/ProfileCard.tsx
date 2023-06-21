@@ -40,7 +40,7 @@ function ProfileCard(props: ProfileCardProps) {
           <LikeButton setLiked={setLiked} liked={liked} />
         </div>
         <div>
-          <h1 className="p-8 text-[50px]">{props.name}</h1>
+          <h1 className="text-white p-8 text-[50px]">{props.name}</h1>
         </div>
       </div>
     </div>

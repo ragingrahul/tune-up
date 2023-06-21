@@ -32,7 +32,27 @@ function page() {
   }
 
   const handleSubmit=async()=>{
-
+    if(!name){
+      window.alert("Please enter name")
+      return
+    }
+    if(!age){
+      window.alert("Please enter age")
+      return
+    }
+    if(!bio){
+      window.alert("Enter bio")
+      return
+    }
+    if(!gender){
+      window.alert("Select gender")
+      return
+    }
+    if(!avatar){
+      window.alert("Select profile picture")
+      return
+    }
+    window.alert("All cool")
   }
 
   useEffect(()=>{
@@ -95,6 +115,7 @@ function page() {
             value={bio}
             onChange={(e)=>{if(e.target){setBio(e.target.value)}}}
             placeholder='Enter Bio' 
+            maxLength={100}
             className={'bg-[#FF8080] overflow-hidden border-2 placeholder-white border-white rounded-lg text-white p-2 text-4xl focus:outline-none m-2 ' + styles.textarea} 
           />
           <div className='flex flex-row items-center'>
@@ -127,7 +148,7 @@ function page() {
           </div>
           <div 
             className='bg-white text-[#FF8080] w-fit m-2 p-3 text-4xl rounded-full hover:cursor-pointer'
-            onClick={uploadPicture}
+            onClick={handleSubmit}
           >
             Create Profile
           </div>

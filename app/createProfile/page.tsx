@@ -16,7 +16,7 @@ type GenderType = "Male" | "Female"
 
 function page() {
   const {runtimeConnector}=useContext(DataverseContext)
-  const {checkCapability}=useStream()
+  const {checkCapability,createPublicStream}=useStream()
   const {getCurrentPkh}=useWallet()
   const [avatar, setAvatar] = useState<File>()
   const [name,setName]=useState<string>()
@@ -52,7 +52,11 @@ function page() {
       window.alert("Select profile picture")
       return
     }
-    window.alert("All cool")
+    const cid=await uploadPicture()
+    const imageLink="https://"+cid+".ipfs.w3s.link"
+    const res =await createPublicStream(name,bio,imageLink,gender,parseInt(age))
+    console.log(res)
+
   }
 
   useEffect(()=>{

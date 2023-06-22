@@ -31,10 +31,10 @@ function page() {
     })
   }
 
-  const createPosts=async()=>{
-    const res=await createPublicStream()
-    console.log(res);
-  }
+  // const createPosts=async()=>{
+  //   const res=await createPublicStream()
+  //   console.log(res);
+  // }
 
   useEffect(() => {
     checkingCapability();
@@ -49,9 +49,9 @@ function page() {
       <button onClick={loadTheStreams} className="text-white border m-3">
         Load Streams
       </button>
-      <button onClick={createPosts} className="text-white border m-3">
+      {/* <button onClick={createPosts} className="text-white border m-3">
         Make Profile
-      </button>
+      </button> */}
     </main>
   );
 }

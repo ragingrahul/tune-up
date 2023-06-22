@@ -17,7 +17,7 @@ interface ProfileCardProps {
 }
 
 function ProfileCard(props: ProfileCardProps) {
-  const [liked, setLiked] = React.useState(true);
+  const [liked, setLiked] = React.useState(false);
 
   return (
     <div

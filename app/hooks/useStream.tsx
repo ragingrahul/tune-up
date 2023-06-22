@@ -52,18 +52,18 @@ export function useStream(){
         return streams;
       };
 
-      const createPublicStream = async() => {
+      const createPublicStream = async(name:string,description:string,image:string,gender:string,age:number) => {
         const res=await runtimeConnector?.createStream({
             modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3",
             streamContent:{
                 appVersion:'0.0.1',
-                name:'RagingRahul',
-                description:'LoverBoy in the house',
+                name:name,
+                description:description,
                 images:[
-                    'https://bafybeidycxvmcx2bywz3c6ipunk7iajimqekzfjya74birawk6mkrdtuhu.ipfs.w3s.link',
+                    image,
                 ],
-                gender:'male',
-                age:21,
+                gender:gender,
+                age:age,
                 addresses:[],
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),

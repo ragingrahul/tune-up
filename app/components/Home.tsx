@@ -7,6 +7,7 @@ import LikeButton from "./LikeButton";
 import { DataverseContext } from "@/app/context/Context";
 import { useWallet, useStream } from "../hooks";
 import VanillaTilt from "vanilla-tilt";
+import LoadingProp from "./LoadingScreen";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -18,11 +19,10 @@ function HomePage() {
   const [liked, setLiked] = React.useState(true);
   const imagePanel = useRef(null);
   const [pkh,setPkh]=useState<string|undefined>()
-
-
   const { wallet, connectWallet,getCurrentPkh } = useWallet();
   const {createCapability,checkCapability,loadStreams}=useStream()
   const { runtimeConnector} = useContext(DataverseContext);
+  const [isLoading,setIsLoading] = useState(false)
 
   const connect = async () => {
     try {
@@ -49,10 +49,14 @@ function HomePage() {
       if(!pkh)
         console.log("Connect 1st")
       // console.log(pkh)
+      setIsLoading(true);
+
       const res=await loadStreams({
         pkh:pkh,
         modelId:"kjzl6hvfrbw6ca9medq5fn6gxsqs8ubia5zsduyudunenq9wpnhnpyrzmkrlkxg"
       })
+
+      setIsLoading(false);
       console.log(res)
     } catch (error) {
       console.error(error)
@@ -85,7 +89,7 @@ function HomePage() {
         </h1>
         <div
           className="bg-white w-[350px] h-[80.7px] rounded-full flex items-center justify-center text-[#FF8080] text-[50px] hover:cursor-pointer mt-12"
-          onClick={handleLaunch }
+          onClick={handleLaunch}
         >
           Launch
         </div>
@@ -114,6 +118,11 @@ function HomePage() {
           </div>
         </div>
       </div>
+      <LoadingProp
+        isLoading={isLoading}
+        title="Launching"
+        desc="Fetching Account details..."
+      /> 
     </div>
   );
 }

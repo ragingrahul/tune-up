@@ -13,6 +13,9 @@ const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
   display: "swap",
 });
+function isEmpty(obj:any) {
+  return Object.keys(obj).length === 0;
+}
 
 function HomePage() {
   const router = useRouter();
@@ -53,11 +56,17 @@ function HomePage() {
 
       const res=await loadStreams({
         pkh:pkh,
-        modelId:"kjzl6hvfrbw6ca9medq5fn6gxsqs8ubia5zsduyudunenq9wpnhnpyrzmkrlkxg"
+        modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3"
       })
 
       setIsLoading(false);
-      console.log(res)
+      if(isEmpty(res)){
+        console.log("Not present")
+        window.location.href="/createProfile"
+      }
+      else{
+        window.location.href="/mainfeed"
+      }
     } catch (error) {
       console.error(error)
     }

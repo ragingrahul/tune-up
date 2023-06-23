@@ -56,7 +56,7 @@ function HomePage() {
 
       const res=await loadStreams({
         pkh:pkh,
-        modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3"
+        modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
       })
 
       setIsLoading(false);

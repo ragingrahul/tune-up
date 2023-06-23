@@ -7,6 +7,7 @@ import ProfileCard from "../components/ProfileCard";
 import { useStream,useWallet } from "../hooks";
 import { DataverseContext } from "../context/Context";
 import { objectToArray } from "../utils/address";
+import LoadingProp from "../components/LoadingScreen";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -35,28 +36,35 @@ function page() {
   const [profile,setProfile] = useState<Object>()
   const [pkh,setPkh]=useState<string>()
   const [profileArray,setProfileArray] = useState<any>()
+  const [isLoading,setIsLoading]=useState<boolean>(false)
   
   const getProfiles=async()=>{
+    setIsLoading(true);
     const res=await loadStreams({
-      modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3"
+      modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
     })
+    
     setProfile(res)
     const result=objectToArray(res)
     console.log(result)
+    setIsLoading(false);
     setProfileArray(result)
   }
 
   const isConnected=async()=>{
+    setIsLoading(true)
     const res=await checkCapability()
     if(res){
       const pkh=await getCurrentPkh()
       setPkh(pkh)
       console.log(pkh)
     }
+    setIsLoading(false)
     return res
   }
 
   useEffect(()=>{
+    isConnected()
     getProfiles()
   },[runtimeConnector])
 
@@ -95,6 +103,7 @@ function page() {
           height={200}
           alt="Logo"
           className="ml-10 hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
+          onClick={()=>window.location.href=`/profile`}
         />
         <Image
           src="/LikeIcon.svg"
@@ -111,6 +120,11 @@ function page() {
           className="mr-10 hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
         />
       </div>
+      <LoadingProp 
+        isLoading={isLoading}
+        title="Fetching"
+        desc="Fecthing Profiles"
+      />
     </div>
   );
 }

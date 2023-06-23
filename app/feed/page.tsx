@@ -19,7 +19,7 @@ function page() {
   const loadTheStreams=async()=>{
     const res=await loadStreams({
       //pkh:"did:pkh:eip155:1:0x2160D41c9D711Ca3fA7777211148538eeb431970",
-      modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3"
+      modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
     })
     //const profiles=Object.values(res)
     const result=objectToArray(res);

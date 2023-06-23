@@ -21,7 +21,7 @@ export function useStream(){
 
     const createCapability=async(wallet:WALLET)=>{
         const currentPkh=await runtimeConnector?.createCapability({
-            app:"matchin",
+            app:"matchedin",
             wallet,
         })
         if(currentPkh)
@@ -52,9 +52,9 @@ export function useStream(){
         return streams;
       };
 
-      const createPublicStream = async(name:string,description:string,image:string,gender:string,age:number) => {
+      const createPublicStream = async(name:string,description:string,image:string,gender:string,age:number,pkh:string) => {
         const res=await runtimeConnector?.createStream({
-            modelId:"kjzl6hvfrbw6c6th6e5bxgz8fmcehowflja2qtelvdec6wv8cwg1djbvb2gy8e3",
+            modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd",
             streamContent:{
                 appVersion:'0.0.1',
                 name:name,
@@ -65,6 +65,7 @@ export function useStream(){
                 gender:gender,
                 age:age,
                 addresses:[],
+                pkh:pkh,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
                 encrypted,

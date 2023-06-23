@@ -6,6 +6,7 @@ import { BiPlus } from 'react-icons/bi'
 import styles from '../Main.module.css'
 import { useStream,saveToIPFS,useWallet } from '../hooks';
 import { DataverseContext } from '../context/Context';
+import LoadingProp from '../components/LoadingScreen';
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -24,11 +25,19 @@ function page() {
   const [bio,setBio]=useState<string>()
   const avatarRef = useRef<HTMLInputElement>(null)
   const [gender, setGender] = useState<GenderType | null>(null)
+  const [pkh,setPkh] = useState<string>("")
+  const [isLoading,setIsLoading] = useState<boolean>(false)
 
   const uploadPicture=async()=>{
     const cid=await saveToIPFS(avatar)
     console.log(cid)
     return cid
+  }
+  
+  const getPkh=async()=>{
+    const pkh=await getCurrentPkh()
+    if(pkh)
+      setPkh(pkh)
   }
 
   const handleSubmit=async()=>{
@@ -52,16 +61,18 @@ function page() {
       window.alert("Select profile picture")
       return
     }
+    setIsLoading(true)
     const cid=await uploadPicture()
     const imageLink="https://"+cid+".ipfs.w3s.link"
-    const res =await createPublicStream(name,bio,imageLink,gender,parseInt(age))
+    const res =await createPublicStream(name,bio,imageLink,gender,parseInt(age),pkh)
+    setIsLoading(false)
     console.log(res)
-
+    window.location.href='/profile'
   }
 
   useEffect(()=>{
     checkCapability()
-    getCurrentPkh()
+    getPkh()
   },[runtimeConnector])
 
   return (
@@ -158,6 +169,11 @@ function page() {
           </div>
         </div>
       </div>
+      <LoadingProp 
+        isLoading={isLoading}
+        title='Loading'
+        desc='Creating a new Profile'
+      />
     </div>
   )
 }

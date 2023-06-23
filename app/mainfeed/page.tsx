@@ -26,14 +26,22 @@ const profiles = [
     image: "/profile_pic2.jpg",
   },
 ];
-
-
+type StreamRecord=Record<string,
+{app: string;
+modelId: string;
+pkh: string;
+streamContent: {
+    file?: any;
+    content?: any;
+};
+}
+>
 
 function page() {
   const {loadStreams,checkCapability}=useStream()
   const {getCurrentPkh}=useWallet()
   const {runtimeConnector}=React.useContext(DataverseContext);
-  const [profile,setProfile] = useState<Object>()
+  const [profile,setProfile] = useState<StreamRecord>()
   const [pkh,setPkh]=useState<string>()
   const [profileArray,setProfileArray] = useState<any>()
   const [isLoading,setIsLoading]=useState<boolean>(false)
@@ -76,13 +84,24 @@ function page() {
       }
     >
       <div className="flex flex-col items-center w-screen mt-16 h-fit bg-[#FF8080] pb-32">
-        {profileArray?.map((profile:any) => (
+        {profile &&
+          Object.entries(profile).map(([key,value])=>(
+            <ProfileCard
+              name={value?.streamContent?.content.name}
+              age={value.streamContent.content.age}
+              image={value.streamContent.content.images[0]}
+              streamId={key}
+              pkh={value.streamContent.content.pkh}
+            />
+          ))
+        }
+        {/* {profileArray?.map((profile:any) => (
           <ProfileCard
             name={profile.name}
             age={profile.age}
             image={profile.images[0]}
           />
-        ))}
+        ))} */}
       </div>
 
 

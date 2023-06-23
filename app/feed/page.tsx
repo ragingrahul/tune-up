@@ -21,14 +21,19 @@ function page() {
       //pkh:"did:pkh:eip155:1:0x2160D41c9D711Ca3fA7777211148538eeb431970",
       modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
     })
-    //const profiles=Object.values(res)
+    if(res){
+      Object.entries(res).map(([key,value])=>(
+        console.log(key,value.streamContent.content.name)
+      ))
+    }
     const result=objectToArray(res);
     // for(const role in res){
     //   result.push(res[role].streamContent.content);
     // }
-    result.map((profile)=>{
-      console.log(profile.age,profile.name)
-    })
+    
+    // result.map((profile)=>{
+    //   console.log(profile.age,profile.name)
+    // })
   }
 
   // const createPosts=async()=>{
@@ -49,6 +54,14 @@ function page() {
       <button onClick={loadTheStreams} className="text-white border m-3">
         Load Streams
       </button>
+      <div className="text-white border m-3" onClick={()=>console.log("1st div")}>
+        <div onClick={()=>console.log("2nd div")}>
+          Hello
+        </div>
+      </div>
+      {
+        
+      }
       {/* <button onClick={createPosts} className="text-white border m-3">
         Make Profile
       </button> */}

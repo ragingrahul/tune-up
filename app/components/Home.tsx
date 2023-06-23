@@ -1,5 +1,5 @@
 "use client";
-import React, { useState,useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import localFont from "next/font/local";
@@ -13,7 +13,7 @@ const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
   display: "swap",
 });
-function isEmpty(obj:any) {
+function isEmpty(obj: any) {
   return Object.keys(obj).length === 0;
 }
 
@@ -21,11 +21,11 @@ function HomePage() {
   const router = useRouter();
   const [liked, setLiked] = React.useState(true);
   const imagePanel = useRef(null);
-  const [pkh,setPkh]=useState<string|undefined>()
-  const { wallet, connectWallet,getCurrentPkh } = useWallet();
-  const {createCapability,checkCapability,loadStreams}=useStream()
-  const { runtimeConnector} = useContext(DataverseContext);
-  const [isLoading,setIsLoading] = useState(false)
+  const [pkh, setPkh] = useState<string | undefined>()
+  const { wallet, connectWallet, getCurrentPkh } = useWallet();
+  const { createCapability, checkCapability, loadStreams } = useStream()
+  const { runtimeConnector, setOwnProfile } = useContext(DataverseContext);
+  const [isLoading, setIsLoading] = useState(false)
 
   const connect = async () => {
     try {
@@ -38,8 +38,8 @@ function HomePage() {
         if (pkh) setPkh(pkh);
         return pkh;
       }
-      else{
-        const pkh=await getCurrentPkh()
+      else {
+        const pkh = await getCurrentPkh()
         setPkh(pkh);
       }
     } catch (error) {
@@ -47,25 +47,25 @@ function HomePage() {
     }
   };
 
-  const handleLaunch=async () => {
+  const handleLaunch = async () => {
     try {
-      if(!pkh)
+      if (!pkh)
         console.log("Connect 1st")
       // console.log(pkh)
       setIsLoading(true);
 
-      const res=await loadStreams({
-        pkh:pkh,
-        modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
+      const res = await loadStreams({
+        pkh: pkh,
+        modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
       })
-
+      setOwnProfile(res)
       setIsLoading(false);
-      if(isEmpty(res)){
+      if (isEmpty(res)) {
         console.log("Not present")
-        window.location.href="/createProfile"
+        window.location.href = "/createProfile"
       }
-      else{
-        window.location.href="/mainfeed"
+      else {
+        window.location.href = "/mainfeed"
       }
     } catch (error) {
       console.error(error)
@@ -119,7 +119,17 @@ function HomePage() {
           <div className="h-[100%] w-[100%] absolute top-0 flex flex-col justify-between">
             <div className="flex justify-between p-8">
               <h1 className="text-white text-[75px]">21</h1>
-              <LikeButton setLiked={setLiked} liked={liked} />
+              <div
+                className="h-[100px] w-[100px] rounded-full bg-white flex justify-center items-center hover:cursor-pointer"
+              >
+                <Image
+                  src={"/Heart_filled.svg"}
+                  height={50}
+                  width={50}
+                  alt="Like"
+                  className="mt-1.5"
+                ></Image>
+              </div>
             </div>
             <div>
               <h1 className="p-8 text-[50px]">Anoy Roy Chowdhury</h1>
@@ -131,7 +141,7 @@ function HomePage() {
         isLoading={isLoading}
         title="Launching"
         desc="Fetching Account details..."
-      /> 
+      />
     </div>
   );
 }

@@ -17,11 +17,11 @@ const myFont = localFont({
 });
 
 function page() {
-    const [liked, setLiked] = React.useState(false);
+    const [liked, setLiked] = useState(false);
     const [profileArray, setProfileArray] = useState<any>()
     const { loadStreams, checkCapability } = useStream()
     const { getCurrentPkh } = useWallet()
-    const { runtimeConnector } = React.useContext(DataverseContext);
+    const { runtimeConnector, ownProfile } = useContext(DataverseContext);
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [pkh, setPkh] = useState<string>()
 
@@ -78,13 +78,23 @@ function page() {
                     <div className='text-white text-5xl mb-3'>{profileArray[0].description}</div>
                     <div
                         className="bg-white w-[350px] h-[80.7px] rounded-full flex items-center justify-center text-[#FF8080] text-[50px] hover:cursor-pointer mt-12"
-                        onClick={()=>window.location.href='/mainfeed'}
+                        onClick={() => window.location.href = '/mainfeed'}
                     >
-                        Launch
+                        Matches
                     </div>
                 </div>
                 <div className='absolute top-5 right-5'>
-                    <LikeButton setLiked={setLiked} liked={liked} />
+                    <div
+                        className="h-[100px] w-[100px] rounded-full bg-white flex justify-center items-center"
+                    >
+                        <Image
+                            src={"/Heart_filled.svg"}
+                            height={50}
+                            width={50}
+                            alt="Like"
+                            className="mt-1.5"
+                        ></Image>
+                    </div>
                 </div>
             </div>}
             <LoadingProp

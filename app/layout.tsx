@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
 import { DataverseProvider } from "@/app/context/Context";
+import { ToggleProvider } from "./context/ToggleContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto_Mono({ subsets: ["latin"] });
@@ -17,9 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <DataverseProvider>
-      <html lang="en">
-        <body className={`${roboto.className} bg-black`}>{children}</body>
-      </html>
+      <ToggleProvider>
+        <html lang="en">
+          <body className={`${roboto.className} bg-black`}>{children}</body>
+        </html>
+      </ToggleProvider>
     </DataverseProvider>
   );
 }

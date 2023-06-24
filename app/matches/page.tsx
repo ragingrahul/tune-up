@@ -4,11 +4,12 @@ import Image from "next/image";
 import LikeButton from "../components/LikeButton";
 import BottomNavbar from "../components/BottomNavbar";
 import localFont from "next/font/local";
-import ProfileCard from "../components/ProfileCard";
+import MatchesProfileCard from "../components/MatchesProfileCard";
 import { useStream, useWallet } from "../hooks";
 import { DataverseContext } from "../context/Context";
 import { objectToArray } from "../utils/address";
 import LoadingProp from "../components/LoadingScreen";
+import { StreamContent } from "@dataverse/runtime-connector";
 
 const myFont = localFont({
     src: "../fonts/Chillax-Bold.ttf",
@@ -34,19 +35,33 @@ function page() {
     const [profile, setProfile] = useState<StreamRecord>()
     const [pkh, setPkh] = useState<string>()
     const [profileArray, setProfileArray] = useState<any>()
+    //const [ownerProfileArray, setOnwerProfileArray] = useState<any>()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+
     const getProfiles = async () => {
+        
         setIsLoading(true);
+        const pkh = await getCurrentPkh()
         const res = await loadStreams({
             modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
         })
-
+        const res1 = await loadStreams({
+            pkh: pkh,
+            modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
+        })
         setProfile(res)
+        const ownerResult = objectToArray(res1)[0]?.addresses
         const result = objectToArray(res)
-        console.log(result)
+        const filteredProfiles = result.filter(obj => {
+            for (const address of ownerResult) {
+                if (address === obj.pkh)
+                    return obj
+            }
+        })
+        console.log(filteredProfiles)
+        setProfileArray(filteredProfiles)
         setIsLoading(false);
-        setProfileArray(result)
     }
 
     const isConnected = async () => {
@@ -59,10 +74,6 @@ function page() {
         }
         setIsLoading(false)
         return res
-    }
-
-    const filterProfiles = async()=>{
-        //const
     }
 
     useEffect(() => {
@@ -78,7 +89,7 @@ function page() {
             }
         >
             <div className="flex flex-col items-center w-screen mt-16 h-fit bg-[#FF8080] pb-32">
-                {profile &&
+                {/* {profile &&
                     Object.entries(profile).map(([key, value]) => (
                         <ProfileCard
                             name={value?.streamContent?.content.name}
@@ -86,6 +97,15 @@ function page() {
                             image={value.streamContent.content.images[0]}
                             streamId={key}
                             pkh={value.streamContent.content.pkh}
+                        />
+                    ))
+                } */}
+                {profileArray?.map((obj: any) => (
+                        <MatchesProfileCard 
+                        name={obj.name}
+                        age={obj.age}
+                        image={obj.images[0]}
+                        pkh={obj.pkh}
                         />
                     ))
                 }

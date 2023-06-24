@@ -71,6 +71,7 @@ function ProfileCard(props: ProfileCardProps) {
 
   const fetchAddress = async () => {
     console.log(props.streamId, props.name)
+    
     const res = await loadStreamsByStreamId(props.streamId)
     if(ownerProfile){
     const content = ownerProfile[0]?.addresses

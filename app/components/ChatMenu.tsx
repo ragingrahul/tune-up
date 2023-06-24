@@ -7,6 +7,7 @@ import VanillaTilt from "vanilla-tilt";
 import MessageDialog from "./MessageDialog";
 import { DataverseContext } from "../context/Context";
 import { ToggleContext } from "../context/ToggleContext";
+import { WalletContext } from "../context/WalletContext";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -16,7 +17,15 @@ const myFont = localFont({
 interface ChatMenuProps {}
 
 function ChatMenu(props: ChatMenuProps) {
+  const { messages, loadConversation, sendMessage, xmtp } =
+    useContext(WalletContext);
   const { setToggle } = useContext(ToggleContext);
+  const [typeMessage, setTypeMessage] = React.useState<string>("");
+
+  useEffect(() => {
+    loadConversation();
+  }, []);
+
   return (
     <>
       <div className="bg-white-900/20 h-[350px] w-[500px] absolute backdrop-filter backdrop-blur-[10px]"></div>
@@ -50,11 +59,20 @@ function ChatMenu(props: ChatMenuProps) {
       </div>
       <div className="bg-white h-[100px] w-[500px] rounded-[30px] mt-[230px] flex items-center justify-between px-5 absolute">
         <input
+          value={typeMessage}
           type="text"
+          onChange={(e) => {
+            setTypeMessage(e.target.value);
+          }}
           className="bg-white border-2 border-[#ff8080] h-[60%] w-[82%] rounded-[15px] font-sans text-black placeholder:text-slate-600/30 text-2xl px-4"
           placeholder="Message"
         ></input>
-        <div className=" hover:bg-slate-400/10 group h-[60%] w-[15%] rounded-[15px] flex items-center justify-center transition duration-300 ease-in-out">
+        <div
+          className=" hover:bg-slate-400/10 group h-[60%] w-[15%] rounded-[15px] flex items-center justify-center transition duration-300 ease-in-out"
+          onClick={() => {
+            if (typeMessage.length > 0) sendMessage(typeMessage);
+          }}
+        >
           <Image
             src="/SendIcon.svg"
             width={30}
@@ -66,7 +84,10 @@ function ChatMenu(props: ChatMenuProps) {
       </div>
       <div className="h-fit w-[500px] mt-[350px] flex flex-col items-center justify-center px-5">
         {messages.map((message) => (
-          <MessageDialog message={message.message} isYou={message.isYou} />
+          <MessageDialog
+            message={message.content}
+            isYou={message.senderAddress === xmtp?.address}
+          />
         ))}
       </div>
     </>

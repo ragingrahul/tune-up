@@ -27,15 +27,19 @@ function page() {
 
     const getProfiles = async () => {
         setIsLoading(true);
-        const res = await loadStreams({
-            pkh: pkh,
-            modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
-        })
-        //console.log(res)
-        const result = objectToArray(res)
-        console.log(result)
-        setIsLoading(false);
-        setProfileArray(result)
+        const pkh=await getCurrentPkh();
+        if (pkh) {
+            const res = await loadStreams({
+                pkh: pkh,
+                modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
+            })
+
+            //console.log(res)
+            const result = objectToArray(res)
+            console.log(result)
+            setIsLoading(false);
+            setProfileArray(result)
+        }
     }
 
     const isConnected = async () => {

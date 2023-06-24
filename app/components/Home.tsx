@@ -31,11 +31,13 @@ function HomePage() {
     try {
       const res = await connectWallet();
       if (res?.wallet) {
+        setIsLoading(true)
         const pkh = await createCapability(res?.wallet);
         console.log("pkh:", pkh);
         const ress = await checkCapability();
         console.log("res:", ress);
         if (pkh) setPkh(pkh);
+        setIsLoading(false)
         return pkh;
       }
       else {

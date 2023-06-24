@@ -10,6 +10,8 @@ import { objectToArray } from "../utils/address";
 import ChatProfileCard from "../components/ChatProfileCard";
 import ChatMenu from "../components/ChatMenu";
 import { ToggleContext } from "../context/ToggleContext";
+import { Client } from "@xmtp/xmtp-js";
+import { ethers } from "ethers";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -21,11 +23,13 @@ const profiles = [
     name: "Anoy Roy Chowdhury",
     age: 21,
     image: "/profile_pic.jpg",
+    address: "0x3C700d88616C9e186aed7dd59B2e7f60819bf863",
   },
   {
     name: "Rahul Raj Sarma",
     age: 22,
     image: "/profile_pic2.jpg",
+    address: "0x2160D41c9D711Ca3fA7777211148538eeb431970",
   },
 ];
 
@@ -33,7 +37,11 @@ const ProfileMenu = () => {
   return (
     <>
       {profiles?.map((profile: any) => (
-        <ChatProfileCard name={profile.name} image={profile.image} />
+        <ChatProfileCard
+          name={profile.name}
+          image={profile.image}
+          address={profile.address}
+        />
       ))}
 
       <h1 className="mt-4 font-sans text-center">
@@ -47,6 +55,23 @@ const ProfileMenu = () => {
 
 function page() {
   const { toggle } = useContext(ToggleContext);
+  const { runtimeConnector } = useContext(DataverseContext);
+
+  const connectToClient = async () => {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const xmtp = await Client.create(signer as any);
+      console.log(xmtp.address);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    connectToClient();
+  }, [runtimeConnector]);
+
   return (
     <div
       className={

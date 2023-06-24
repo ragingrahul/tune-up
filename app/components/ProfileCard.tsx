@@ -42,7 +42,7 @@ function ProfileCard(props: ProfileCardProps) {
   const [LikedList, setLikedList] = useState<Array<string>>()
   const [pkh,setPkh]=useState<string>()
   const [ownerProfile,setOwnerProfile] = useState<StreamContent>()
-
+  const [ownerStream,setOwnerStream] = useState<string>()
 
   const getProfiles = async () => {
     const pkh = await getCurrentPkh();
@@ -51,14 +51,18 @@ function ProfileCard(props: ProfileCardProps) {
       pkh: pkh,
       modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
     })
-    //console.log(res)
+    
+   
     if (res) {
       const result:StreamContent = objectToArray(res)
+      const id=Object.keys(res)[0]
+      setOwnerStream(id)
       setOwnerProfile(result)
-      const likedAddresses: Array<string> = result?.streamContent?.content?.addresses
+      const likedAddresses:Array<string> = result[0].addresses
+      console.log(props.pkh)
       const ifLiked = likedAddresses?.filter((address) => address === props.pkh)
       setLikedList(ifLiked)
-      console.log(ifLiked)
+      //console.log(ifLiked)
       if (ifLiked?.length > 0) {
         setLiked(true)
       }
@@ -68,24 +72,31 @@ function ProfileCard(props: ProfileCardProps) {
   const fetchAddress = async () => {
     console.log(props.streamId, props.name)
     const res = await loadStreamsByStreamId(props.streamId)
-    const content = res?.streamContent.content
-    const likedAddress = [...content.addresses, res?.pkh]
-    console.log(likedAddress)
-    console.log(LikedList?.length)
-    if (LikedList && pkh && ownerProfile) {
+    if(ownerProfile){
+    const content = ownerProfile[0]?.addresses
+    // console.log(content)
+    const likedAddress = [...content, res?.pkh]
+    // console.log(likedAddress)
+    // console.log(LikedList?.length)
+    console.log(ownerProfile)
+    console.log(pkh)
+    if (LikedList && pkh && ownerProfile && ownerStream) {
       if (LikedList?.length === 0) {
-        const stream = await updatePublicStream(ownerProfile.name, ownerProfile.description, ownerProfile.images[0], ownerProfile.gender, ownerProfile.age, pkh, likedAddress, props.streamId, content.createdAt)
+        const stream = await updatePublicStream(ownerProfile[0].name, ownerProfile[0].description, ownerProfile[0].images[0], ownerProfile[0].gender, ownerProfile[0].age, pkh, likedAddress,ownerStream, ownerProfile[0].createdAt)
         console.log(stream)
+        getProfiles()
       }
       else{
-        const addressList: Array<string>=content.addresses
+        const addressList: Array<string>=ownerProfile[0]?.addresses
         console.log(addressList)
-        const unlikedAddress=addressList.filter((address) =>address !== pkh)
+        const unlikedAddress=addressList.filter((address) =>address !== props.pkh)
         console.log(unlikedAddress)
-        const stream = await updatePublicStream(content.name, content.description, content.images[0], content.gender, content.age,pkh, unlikedAddress, props.streamId, content.createdAt)
+        const stream = await updatePublicStream(ownerProfile[0].name, ownerProfile[0].description, ownerProfile[0].images[0], ownerProfile[0].gender, ownerProfile[0].age, pkh, unlikedAddress,ownerStream, ownerProfile[0].createdAt)
         console.log(stream)
+        getProfiles()
       }
     }
+  }
   }
 
   useEffect(() => {

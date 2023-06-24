@@ -2,6 +2,7 @@
 import React, { useEffect,useState,useContext } from "react";
 import Image from "next/image";
 import LikeButton from "../components/LikeButton";
+import BottomNavbar from "../components/BottomNavbar";
 import localFont from "next/font/local";
 import ProfileCard from "../components/ProfileCard";
 import { useStream,useWallet } from "../hooks";
@@ -95,13 +96,6 @@ function page() {
             />
           ))
         }
-        {/* {profileArray?.map((profile:any) => (
-          <ProfileCard
-            name={profile.name}
-            age={profile.age}
-            image={profile.images[0]}
-          />
-        ))} */}
       </div>
 
 
@@ -115,7 +109,7 @@ function page() {
         />
       </div>
 
-      <div className="fixed backdrop-filter hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-white bottom-3 w-[400px] h-[100px] bg-slate-50/20 backdrop-blur-[10px] rounded-3xl flex justify-between items-center">
+      {/* <div className="fixed backdrop-filter hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-white bottom-3 w-[400px] h-[100px] bg-slate-50/20 backdrop-blur-[10px] rounded-3xl flex justify-between items-center">
         <Image
           src="/ProfileIcon.svg"
           width={60}
@@ -138,7 +132,8 @@ function page() {
           alt="Logo"
           className="mr-10 hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
         />
-      </div>
+      </div> */}
+      <BottomNavbar />
       <LoadingProp 
         isLoading={isLoading}
         title="Fetching"

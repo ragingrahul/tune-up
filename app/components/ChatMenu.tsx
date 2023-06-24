@@ -1,5 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useRef } from "react";
+import { ethers } from "ethers";
+import { Client } from "@xmtp/xmtp-js";
 import Image from "next/image";
 import localFont from "next/font/local";
 import LikeButton from "./LikeButton";
@@ -14,16 +16,33 @@ const myFont = localFont({
   display: "swap",
 });
 
-interface ChatMenuProps {}
+interface ChatMenuProps { }
 
 function ChatMenu(props: ChatMenuProps) {
   const { messages, loadConversation, sendMessage, xmtp } =
     useContext(WalletContext);
   const { setToggle } = useContext(ToggleContext);
   const [typeMessage, setTypeMessage] = React.useState<string>("");
+  const {runtimeConnector}=useContext(DataverseContext)
+
+  const connectToClient = async () => {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const xmtp = await Client.create(signer, { env: "production" });
+      console.log(xmtp.address);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    loadConversation();
+    connectToClient();
+  }, [runtimeConnector]);
+
+
+  useEffect(() => {
+    //loadConversation();
   }, []);
 
   return (

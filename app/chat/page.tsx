@@ -57,20 +57,20 @@ function page() {
   const { toggle } = useContext(ToggleContext);
   const { runtimeConnector } = useContext(DataverseContext);
 
-  const connectToClient = async () => {
-    try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const xmtp = await Client.create(signer as any);
-      console.log(xmtp.address);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const connectToClient = async () => {
+  //   try {
+  //     const provider = new ethers.BrowserProvider(window.ethereum);
+  //     const signer = await provider.getSigner();
+  //     const xmtp = await Client.create(signer,{ env: "production" });
+  //     console.log(xmtp.address);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    connectToClient();
-  }, [runtimeConnector]);
+  // useEffect(() => {
+  //   connectToClient();
+  // }, [runtimeConnector]);
 
   return (
     <div

@@ -19,6 +19,7 @@ function BottomNavbar() {
           height={200}
           alt="Logo"
           className="hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
+          onClick={() => (window.location.href = `/matches`)}
         />
         <Image
           src="/ChatIcon.svg"

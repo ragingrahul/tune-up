@@ -17,7 +17,7 @@ type GenderType = "Male" | "Female"
 
 function page() {
   const {runtimeConnector}=useContext(DataverseContext)
-  const {checkCapability,createPublicStream}=useStream()
+  const {checkCapability,createPublicStream,loadStreams}=useStream()
   const {getCurrentPkh}=useWallet()
   const [avatar, setAvatar] = useState<File>()
   const [name,setName]=useState<string>()
@@ -70,9 +70,25 @@ function page() {
     window.location.href='/profile'
   }
 
+  const getProfiles=async()=>{
+    setIsLoading(true)
+    const pkh=await getCurrentPkh()
+    if (pkh) {
+      const res = await loadStreams({
+          pkh: pkh,
+          modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
+      })
+      if(res){
+        window.location.href='/mainfeed'
+      }
+    }
+    setIsLoading(false)
+  }
+
   useEffect(()=>{
     checkCapability()
     getPkh()
+    getProfiles()
   },[runtimeConnector])
 
   return (

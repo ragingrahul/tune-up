@@ -49,15 +49,25 @@ function page() {
   
   const getProfiles=async()=>{
     setIsLoading(true);
+    const pkh=await getCurrentPkh();
     const res=await loadStreams({
       modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
     })
-    
+    if(res){
+    const filteredProfiles=Object.fromEntries(
+      Object.entries(res).filter(([key,value])=>{
+        console.log(value)
+        return value.pkh!==pkh
+      }
+    )
+    )
+    console.log(filteredProfiles)
     setProfile(res)
     const result=objectToArray(res)
     console.log(result)
     setIsLoading(false);
     setProfileArray(result)
+    }
   }
 
   const isConnected=async()=>{

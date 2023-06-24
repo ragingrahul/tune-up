@@ -25,6 +25,7 @@ interface ContextType {
   messages: DecodedMessage[];
   conversation: Conversation | undefined;
   sendMessage: (message: string) => Promise<void>;
+  connectToClient:()=>Promise<void>;
   streamMessages: () => Promise<void>;
   loadConversation: () => Promise<void>;
   setPeerAddress: Dispatch<SetStateAction<string>>;
@@ -45,7 +46,7 @@ export const WalletProvider = ({ children }: any) => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       setSigner(signer);
-      const xmtp = await Client.create(signer as any);
+      const xmtp = await Client.create(signer,{env:"production"});
       setXmtp(xmtp);
       console.log(xmtp.address);
     } catch (error) {
@@ -71,9 +72,6 @@ export const WalletProvider = ({ children }: any) => {
     await conversation?.send(message);
   };
 
-  useEffect(() => {
-    connectToClient();
-  }, [runtimeConnector]);
 
   const streamMessages = async () => {
     if (xmtp && conversation) {
@@ -94,6 +92,7 @@ export const WalletProvider = ({ children }: any) => {
         streamMessages,
         loadConversation,
         setPeerAddress,
+        connectToClient,
       }}
     >
       {children}

@@ -8,6 +8,7 @@ import { DataverseContext } from "@/app/context/Context";
 import { useWallet, useStream } from "../hooks";
 import VanillaTilt from "vanilla-tilt";
 import LoadingProp from "./LoadingScreen";
+import { WalletContext } from "../context/WalletContext";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -25,6 +26,7 @@ function HomePage() {
   const { wallet, connectWallet, getCurrentPkh } = useWallet();
   const { createCapability, checkCapability, loadStreams } = useStream()
   const { runtimeConnector, setOwnProfile } = useContext(DataverseContext);
+  const {connectToClient}=useContext(WalletContext)
   const [isLoading, setIsLoading] = useState(false)
 
   const connect = async () => {
@@ -37,6 +39,7 @@ function HomePage() {
         const ress = await checkCapability();
         console.log("res:", ress);
         if (pkh) setPkh(pkh);
+        //await connectToClient()
         setIsLoading(false)
         return pkh;
       }

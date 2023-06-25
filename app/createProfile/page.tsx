@@ -78,6 +78,7 @@ function page() {
           pkh: pkh,
           modelId: "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072"
       })
+      console.log(res)
       if(res){
         window.location.href='/mainfeed'
       }

@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect,useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import LikeButton from "../components/LikeButton";
 import BottomNavbar from "../components/BottomNavbar";
 import localFont from "next/font/local";
 import ProfileCard from "../components/ProfileCard";
-import { useStream,useWallet } from "../hooks";
+import { useStream, useWallet } from "../hooks";
 import { DataverseContext } from "../context/Context";
 import { objectToArray } from "../utils/address";
 import LoadingProp from "../components/LoadingScreen";
@@ -27,65 +27,67 @@ const profiles = [
     image: "/profile_pic2.jpg",
   },
 ];
-type StreamRecord=Record<string,
-{app: string;
-modelId: string;
-pkh: string;
-streamContent: {
-    file?: any;
-    content?: any;
-};
-}
->
+type StreamRecord = Record<
+  string,
+  {
+    app: string;
+    modelId: string;
+    pkh: string;
+    streamContent: {
+      file?: any;
+      content?: any;
+    };
+  }
+>;
 
 function page() {
-  const {loadStreams,checkCapability}=useStream()
-  const {getCurrentPkh}=useWallet()
-  const {runtimeConnector}=React.useContext(DataverseContext);
-  const [profile,setProfile] = useState<StreamRecord>()
-  const [pkh,setPkh]=useState<string>()
-  const [profileArray,setProfileArray] = useState<any>()
-  const [isLoading,setIsLoading]=useState<boolean>(false)
-  
-  const getProfiles=async()=>{
+  const { loadStreams, checkCapability } = useStream();
+  const { getCurrentPkh } = useWallet();
+  const { runtimeConnector } = React.useContext(DataverseContext);
+  const [profile, setProfile] = useState<StreamRecord>();
+  const [pkh, setPkh] = useState<string>();
+  const [profileArray, setProfileArray] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const getProfiles = async () => {
     setIsLoading(true);
-    const pkh=await getCurrentPkh();
-    const res=await loadStreams({
-      modelId:"kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
-    })
-    if(res){
-    const filteredProfiles=Object.fromEntries(
-      Object.entries(res).filter(([key,value])=>{
-        console.log(value)
-        return value.pkh!==pkh
-      }
-    )
-    )
-    console.log(filteredProfiles)
-    setProfile(res)
-    const result=objectToArray(res)
-    console.log(result)
+    const pkh = await getCurrentPkh();
+    const res = await loadStreams({
+      modelId:
+        "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd",
+    });
+    if (res) {
+      const filteredProfiles = Object.fromEntries(
+        Object.entries(res).filter(([key, value]) => {
+          console.log(value);
+          return value.pkh !== pkh;
+        })
+      );
+      console.log(filteredProfiles);
+      setProfile(res);
+      const result = objectToArray(res);
+      console.log(result);
+      setIsLoading(false);
+      setProfileArray(result);
+    }
+  };
+
+  const isConnected = async () => {
+    setIsLoading(true);
+    const res = await checkCapability();
+    if (res) {
+      const pkh = await getCurrentPkh();
+      setPkh(pkh);
+      console.log(pkh);
+    }
     setIsLoading(false);
-    setProfileArray(result)
-    }
-  }
+    return res;
+  };
 
-  const isConnected=async()=>{
-    setIsLoading(true)
-    const res=await checkCapability()
-    if(res){
-      const pkh=await getCurrentPkh()
-      setPkh(pkh)
-      console.log(pkh)
-    }
-    setIsLoading(false)
-    return res
-  }
-
-  useEffect(()=>{
-    isConnected()
-    getProfiles()
-  },[runtimeConnector])
+  useEffect(() => {
+    isConnected();
+    getProfiles();
+  }, [runtimeConnector]);
 
   return (
     <div
@@ -96,7 +98,7 @@ function page() {
     >
       <div className="flex flex-col items-center w-screen mt-16 h-fit bg-[#FF8080] pb-32">
         {profile &&
-          Object.entries(profile).map(([key,value])=>(
+          Object.entries(profile).map(([key, value]) => (
             <ProfileCard
               name={value?.streamContent?.content.name}
               age={value.streamContent.content.age}
@@ -104,10 +106,8 @@ function page() {
               streamId={key}
               pkh={value.streamContent.content.pkh}
             />
-          ))
-        }
+          ))}
       </div>
-
 
       <div className="fixed backdrop-filter top-3 rounded-2xl hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-[#ff8080] w-[450px] h-[75px] bg-white-900/20 backdrop-blur-[10px] flex justify-center items-center">
         <Image
@@ -144,7 +144,7 @@ function page() {
         />
       </div> */}
       <BottomNavbar />
-      <LoadingProp 
+      <LoadingProp
         isLoading={isLoading}
         title="Fetching"
         desc="Fecthing Profiles"

@@ -12,84 +12,84 @@ import LoadingProp from "../components/LoadingScreen";
 import { StreamContent } from "@dataverse/runtime-connector";
 
 const myFont = localFont({
-    src: "../fonts/Chillax-Bold.ttf",
-    display: "swap",
+  src: "../fonts/Chillax-Bold.ttf",
+  display: "swap",
 });
 
-type StreamRecord = Record<string,
-    {
-        app: string;
-        modelId: string;
-        pkh: string;
-        streamContent: {
-            file?: any;
-            content?: any;
-        };
-    }
->
+type StreamRecord = Record<
+  string,
+  {
+    app: string;
+    modelId: string;
+    pkh: string;
+    streamContent: {
+      file?: any;
+      content?: any;
+    };
+  }
+>;
 
 function page() {
-    const { loadStreams, checkCapability } = useStream()
-    const { getCurrentPkh } = useWallet()
-    const { runtimeConnector } = React.useContext(DataverseContext);
-    const [profile, setProfile] = useState<StreamRecord>()
-    const [pkh, setPkh] = useState<string>()
-    const [profileArray, setProfileArray] = useState<any>()
-    //const [ownerProfileArray, setOnwerProfileArray] = useState<any>()
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { loadStreams, checkCapability } = useStream();
+  const { getCurrentPkh } = useWallet();
+  const { runtimeConnector } = React.useContext(DataverseContext);
+  const [profile, setProfile] = useState<StreamRecord>();
+  const [pkh, setPkh] = useState<string>();
+  const [profileArray, setProfileArray] = useState<any>();
+  //const [ownerProfileArray, setOnwerProfileArray] = useState<any>()
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const getProfiles = async () => {
+    setIsLoading(true);
+    const pkh = await getCurrentPkh();
+    const res = await loadStreams({
+      modelId:
+        "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd",
+    });
+    const res1 = await loadStreams({
+      pkh: pkh,
+      modelId:
+        "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd",
+    });
+    setProfile(res);
+    const ownerResult = objectToArray(res1)[0]?.addresses;
+    const result = objectToArray(res);
+    const filteredProfiles = result.filter((obj) => {
+      for (const address of ownerResult) {
+        if (address === obj.pkh) return obj;
+      }
+    });
+    console.log(filteredProfiles);
+    setProfileArray(filteredProfiles);
+    setIsLoading(false);
+  };
 
-    const getProfiles = async () => {
-        
-        setIsLoading(true);
-        const pkh = await getCurrentPkh()
-        const res = await loadStreams({
-            modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
-        })
-        const res1 = await loadStreams({
-            pkh: pkh,
-            modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
-        })
-        setProfile(res)
-        const ownerResult = objectToArray(res1)[0]?.addresses
-        const result = objectToArray(res)
-        const filteredProfiles = result.filter(obj => {
-            for (const address of ownerResult) {
-                if (address === obj.pkh)
-                    return obj
-            }
-        })
-        console.log(filteredProfiles)
-        setProfileArray(filteredProfiles)
-        setIsLoading(false);
+  const isConnected = async () => {
+    setIsLoading(true);
+    const res = await checkCapability();
+    if (res) {
+      const pkh = await getCurrentPkh();
+      setPkh(pkh);
+      console.log(pkh);
     }
+    setIsLoading(false);
+    return res;
+  };
 
-    const isConnected = async () => {
-        setIsLoading(true)
-        const res = await checkCapability()
-        if (res) {
-            const pkh = await getCurrentPkh()
-            setPkh(pkh)
-            console.log(pkh)
-        }
-        setIsLoading(false)
-        return res
-    }
+  useEffect(() => {
+    isConnected();
+    getProfiles();
+  }, [runtimeConnector]);
 
-    useEffect(() => {
-        isConnected()
-        getProfiles()
-    }, [runtimeConnector])
-
-    return (
-        <div
-            className={
-                "h-screen w-screen bg-[#FF8080] flex flex-col items-center overflow-x-hidden " +
-                myFont.className
-            }
-        >
-            <div className="flex flex-col items-center w-screen mt-16 h-fit bg-[#FF8080] pb-32">
-                {/* {profile &&
+  return (
+    <div
+      className={
+        "h-screen w-screen bg-[#FF8080] flex flex-col items-center overflow-x-hidden " +
+        myFont.className
+      }
+    >
+      <div className="flex flex-col items-center w-screen mt-16 h-fit bg-[#FF8080] pb-32">
+        {/* {profile &&
                     Object.entries(profile).map(([key, value]) => (
                         <ProfileCard
                             name={value?.streamContent?.content.name}
@@ -100,29 +100,32 @@ function page() {
                         />
                     ))
                 } */}
-                {profileArray?.map((obj: any) => (
-                        <MatchesProfileCard 
-                        name={obj.name}
-                        age={obj.age}
-                        image={obj.images[0]}
-                        pkh={obj.pkh}
-                        />
-                    ))
-                }
-            </div>
+        {profileArray?.map((obj: any) => (
+          <MatchesProfileCard
+            name={obj.name}
+            age={obj.age}
+            image={obj.images[0]}
+            pkh={obj.pkh}
+          />
+        ))}
+        <h1 className="mt-4 font-sans text-center">
+          Chats are initiated when <br />
+          both of you liked each <br />
+          other
+        </h1>
+      </div>
 
+      <div className="fixed backdrop-filter top-3 rounded-2xl hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-[#ff8080] w-[450px] h-[75px] bg-white-900/20 backdrop-blur-[10px] flex justify-center items-center">
+        <Image
+          src="/Logo.png"
+          width={200}
+          height={200}
+          alt="Logo"
+          className=""
+        />
+      </div>
 
-            <div className="fixed backdrop-filter top-3 rounded-2xl hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-[#ff8080] w-[450px] h-[75px] bg-white-900/20 backdrop-blur-[10px] flex justify-center items-center">
-                <Image
-                    src="/Logo.png"
-                    width={200}
-                    height={200}
-                    alt="Logo"
-                    className=""
-                />
-            </div>
-
-            {/* <div className="fixed backdrop-filter hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-white bottom-3 w-[400px] h-[100px] bg-slate-50/20 backdrop-blur-[10px] rounded-3xl flex justify-between items-center">
+      {/* <div className="fixed backdrop-filter hover:backdrop-filter-none transition duration-300 ease-in-out hover:bg-white bottom-3 w-[400px] h-[100px] bg-slate-50/20 backdrop-blur-[10px] rounded-3xl flex justify-between items-center">
           <Image
             src="/ProfileIcon.svg"
             width={60}
@@ -146,14 +149,14 @@ function page() {
             className="mr-10 hover:scale-110 transition duration-300 ease-in-out hover:cursor-pointer"
           />
         </div> */}
-            <BottomNavbar />
-            <LoadingProp
-                isLoading={isLoading}
-                title="Fetching"
-                desc="Fecthing Profiles"
-            />
-        </div>
-    );
+      <BottomNavbar />
+      <LoadingProp
+        isLoading={isLoading}
+        title="Fetching"
+        desc="Fecthing Profiles"
+      />
+    </div>
+  );
 }
 
 export default page;

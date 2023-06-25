@@ -22,29 +22,28 @@ function HomePage() {
   const router = useRouter();
   const [liked, setLiked] = React.useState(true);
   const imagePanel = useRef(null);
-  const [pkh, setPkh] = useState<string | undefined>()
+  const [pkh, setPkh] = useState<string | undefined>();
   const { wallet, connectWallet, getCurrentPkh } = useWallet();
-  const { createCapability, checkCapability, loadStreams } = useStream()
+  const { createCapability, checkCapability, loadStreams } = useStream();
   const { runtimeConnector, setOwnProfile } = useContext(DataverseContext);
-  const {connectToClient}=useContext(WalletContext)
-  const [isLoading, setIsLoading] = useState(false)
+  const { connectToClient } = useContext(WalletContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const connect = async () => {
     try {
       const res = await connectWallet();
       if (res?.wallet) {
-        setIsLoading(true)
+        setIsLoading(true);
         const pkh = await createCapability(res?.wallet);
         console.log("pkh:", pkh);
         const ress = await checkCapability();
         console.log("res:", ress);
         if (pkh) setPkh(pkh);
         //await connectToClient()
-        setIsLoading(false)
+        setIsLoading(false);
         return pkh;
-      }
-      else {
-        const pkh = await getCurrentPkh()
+      } else {
+        const pkh = await getCurrentPkh();
         setPkh(pkh);
       }
     } catch (error) {
@@ -54,28 +53,27 @@ function HomePage() {
 
   const handleLaunch = async () => {
     try {
-      if (!pkh)
-        console.log("Connect 1st")
+      if (!pkh) console.log("Connect 1st");
       // console.log(pkh)
       setIsLoading(true);
 
       const res = await loadStreams({
         pkh: pkh,
-        modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd"
-      })
-      setOwnProfile(res)
+        modelId:
+          "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd",
+      });
+      setOwnProfile(res);
       setIsLoading(false);
       if (isEmpty(res)) {
-        console.log("Not present")
-        window.location.href = "/createProfile"
-      }
-      else {
-        window.location.href = "/mainfeed"
+        console.log("Not present");
+        window.location.href = "/createProfile";
+      } else {
+        window.location.href = "/mainfeed";
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     connect();
@@ -124,9 +122,7 @@ function HomePage() {
           <div className="h-[100%] w-[100%] absolute top-0 flex flex-col justify-between">
             <div className="flex justify-between p-8">
               <h1 className="text-white text-[75px]">21</h1>
-              <div
-                className="h-[100px] w-[100px] rounded-full bg-white flex justify-center items-center hover:cursor-pointer"
-              >
+              <div className="h-[100px] w-[100px] rounded-full bg-white flex justify-center items-center hover:cursor-pointer">
                 <Image
                   src={"/Heart_filled.svg"}
                   height={50}
@@ -137,7 +133,7 @@ function HomePage() {
               </div>
             </div>
             <div>
-              <h1 className="p-8 text-[50px]">Anoy Roy Chowdhury</h1>
+              <h1 className="p-8 text-[50px] text-white">Anoy Roy Chowdhury</h1>
             </div>
           </div>
         </div>

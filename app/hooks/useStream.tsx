@@ -21,7 +21,7 @@ export function useStream() {
 
   const createCapability = async (wallet: WALLET) => {
     const currentPkh = await runtimeConnector?.createCapability({
-      app: "matchedin",
+      app: "matchedup",
       wallet,
     })
     if (currentPkh)
@@ -59,7 +59,7 @@ export function useStream() {
 
   const createPublicStream = async (name: string, description: string, image: string, gender: string, age: number, pkh: string) => {
     const res = await runtimeConnector?.createStream({
-      modelId: "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd",
+      modelId: "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072",
       streamContent: {
         appVersion: '0.0.1',
         name: name,

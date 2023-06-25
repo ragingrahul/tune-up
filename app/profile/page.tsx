@@ -32,7 +32,7 @@ function page() {
       const res = await loadStreams({
         pkh: pkh,
         modelId:
-          "kjzl6hvfrbw6c5v0ce3x14dusz2qebnzosn596q6pd3dp4oaqkq3zwdohgbb3qd",
+          "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072",
       });
 
       //console.log(res)

@@ -7,7 +7,7 @@ import styles from '../Main.module.css'
 import { useStream,saveToIPFS,useWallet } from '../hooks';
 import { DataverseContext } from '../context/Context';
 import LoadingProp from '../components/LoadingScreen';
-
+import { objectToArray } from '../utils/address';
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
   display: "swap",
@@ -78,9 +78,11 @@ function page() {
           pkh: pkh,
           modelId: "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072"
       })
-      console.log(res)
       if(res){
-        window.location.href='/mainfeed'
+        const resObj:any=objectToArray(res)
+        if(resObj.pkh===pkh){
+          window.location.href='/mainfeed'
+        }
       }
     }
     setIsLoading(false)

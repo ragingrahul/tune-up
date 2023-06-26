@@ -8,6 +8,8 @@ import { useStream,saveToIPFS,useWallet } from '../hooks';
 import { DataverseContext } from '../context/Context';
 import LoadingProp from '../components/LoadingScreen';
 import { objectToArray } from '../utils/address';
+import { modelId } from '../utils/constants';
+
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
   display: "swap",
@@ -76,7 +78,7 @@ function page() {
     if (pkh) {
       const res = await loadStreams({
           pkh: pkh,
-          modelId: "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072"
+          modelId:modelId
       })
       if(res){
         const resObj:any=objectToArray(res)

@@ -9,6 +9,7 @@ import { getAddressFromDid } from "../utils/address";
 import { objectToArray } from "../utils/address";
 import { RuntimeConnector,StreamContent } from "@dataverse/runtime-connector";
 import { DataverseContext } from "../context/Context";
+import { modelId } from "../utils/constants";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -49,7 +50,7 @@ function ProfileCard(props: ProfileCardProps) {
     setPkh(pkh);
     const res = await loadStreams({
       pkh: pkh,
-      modelId: "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072"
+      modelId: modelId
     })
     
    

@@ -9,6 +9,7 @@ import { useWallet, useStream } from "../hooks";
 import VanillaTilt from "vanilla-tilt";
 import LoadingProp from "./LoadingScreen";
 import { WalletContext } from "../context/WalletContext";
+import { modelId } from "../utils/constants";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -59,8 +60,7 @@ function HomePage() {
 
       const res = await loadStreams({
         pkh: pkh,
-        modelId:
-          "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072",
+        modelId:modelId,
       });
       setOwnProfile(res);
       setIsLoading(false);

@@ -9,6 +9,7 @@ import { useStream, useWallet } from "../hooks";
 import { DataverseContext } from "../context/Context";
 import { objectToArray } from "../utils/address";
 import LoadingProp from "../components/LoadingScreen";
+import { modelId } from "../utils/constants";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -54,7 +55,7 @@ function page() {
     const pkh = await getCurrentPkh();
     const res = await loadStreams({
       modelId:
-        "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072",
+        modelId,
     });
     if (res) {
       const filteredProfiles = Object.fromEntries(

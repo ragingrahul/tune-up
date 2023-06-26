@@ -2,6 +2,7 @@
 import { useState, useContext } from "react"
 import { FileType, Currency, WALLET, StreamContent } from "@dataverse/runtime-connector"
 import { DataverseContext } from "../context/Context"
+import { appName,modelId } from "../utils/constants"
 
 export function useStream() {
   const { runtimeConnector } = useContext(DataverseContext)
@@ -21,7 +22,7 @@ export function useStream() {
 
   const createCapability = async (wallet: WALLET) => {
     const currentPkh = await runtimeConnector?.createCapability({
-      app: "matchedup",
+      app: appName,
       wallet,
     })
     if (currentPkh)
@@ -59,7 +60,7 @@ export function useStream() {
 
   const createPublicStream = async (name: string, description: string, image: string, gender: string, age: number, pkh: string) => {
     const res = await runtimeConnector?.createStream({
-      modelId: "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072",
+      modelId: modelId,
       streamContent: {
         appVersion: '0.0.1',
         name: name,

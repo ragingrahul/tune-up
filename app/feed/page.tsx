@@ -5,6 +5,7 @@ import { DataverseContext } from "@/app/context/Context";
 import { useContext } from "react";
 import { useStream, useWallet } from "../hooks";
 import { objectToArray } from "../utils/address";
+import { modelId } from "../utils/constants";
 
 function page() {
   const { connectWallet } = useWallet();
@@ -19,7 +20,7 @@ function page() {
   const loadTheStreams=async()=>{
     const res=await loadStreams({
       pkh:"did:pkh:eip155:1:0x2160D41c9D711Ca3fA7777211148538eeb431970",
-      modelId:"kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072"
+      modelId:modelId
     })
     if(res){
       Object.entries(res).map(([key,value])=>(

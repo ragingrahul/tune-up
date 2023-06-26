@@ -10,6 +10,7 @@ import { DataverseContext } from "../context/Context";
 import { objectToArray } from "../utils/address";
 import LoadingProp from "../components/LoadingScreen";
 import { StreamContent } from "@dataverse/runtime-connector";
+import { modelId } from "../utils/constants";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -44,12 +45,12 @@ function page() {
     const pkh = await getCurrentPkh();
     const res = await loadStreams({
       modelId:
-        "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072",
+        modelId,
     });
     const res1 = await loadStreams({
       pkh: pkh,
       modelId:
-        "kjzl6hvfrbw6c7bhl6j6dmchepqt1vpdqskaiz1cq5e3mt5u8bmhexuyx4n6072",
+        modelId,
     });
     setProfile(res);
     const ownerResult = objectToArray(res1)[0]?.addresses;

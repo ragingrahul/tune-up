@@ -8,8 +8,8 @@ import { DataverseContext } from "@/app/context/Context";
 import { useWallet, useStream } from "../hooks";
 import VanillaTilt from "vanilla-tilt";
 import LoadingProp from "./LoadingScreen";
-import { WalletContext } from "../context/WalletContext";
 import { modelId } from "../utils/constants";
+import { PolybaseContext } from "../context/PolybaseContext";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -27,7 +27,9 @@ function HomePage() {
   const { wallet, connectWallet, getCurrentPkh } = useWallet();
   const { createCapability, checkCapability, loadStreams } = useStream();
   const { runtimeConnector, setOwnProfile } = useContext(DataverseContext);
-  const { connectToClient } = useContext(WalletContext);
+  const { init, fetchCollection, fetchConversion, db } =
+    useContext(PolybaseContext);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const connect = async () => {
@@ -53,30 +55,34 @@ function HomePage() {
   };
 
   const handleLaunch = async () => {
-    try {
-      if (!pkh) console.log("Connect 1st");
-      // console.log(pkh)
-      setIsLoading(true);
+    const collection = await db.collection("MatchSchema").get();
+    console.log("collection:", collection);
+    // try {
+    //   if (!pkh) console.log("Connect 1st");
+    //   // console.log(pkh)
+    //   setIsLoading(true);
 
-      const res = await loadStreams({
-        pkh: pkh,
-        modelId:modelId,
-      });
-      setOwnProfile(res);
-      setIsLoading(false);
-      if (isEmpty(res)) {
-        console.log("Not present");
-        window.location.href = "/createProfile";
-      } else {
-        window.location.href = "/mainfeed";
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    //   const res = await loadStreams({
+    //     pkh: pkh,
+    //     modelId: modelId,
+    //   });
+    //   setOwnProfile(res);
+    //   setIsLoading(false);
+    //   if (isEmpty(res)) {
+    //     console.log("Not present");
+    //     window.location.href = "/createProfile";
+    //   } else {
+    //     window.location.href = "/mainfeed";
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   useEffect(() => {
-    connect();
+    connect().then((res) => {
+      init();
+    });
   }, [runtimeConnector]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-//"use client";
+"use client";
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
 import { DataverseContext, DataverseProvider } from "@/app/context/Context";
@@ -14,11 +14,11 @@ const roboto = Roboto_Mono({ subsets: ["latin"] });
 
 const auth = typeof window !== "undefined" ? new Auth() : null;
 
-export const metadata = {
-  title: "Match",
-  description: "Decentralized Dating App",
-  img: "/LikeIcon.svg",
-};
+// export const metadata = {
+//   title: "Match",
+//   description: "Decentralized Dating App",
+//   img: "/LikeIcon.svg",
+// };
 
 export default function RootLayout({
   children,

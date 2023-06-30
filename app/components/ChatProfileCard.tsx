@@ -6,7 +6,7 @@ import LikeButton from "./LikeButton";
 import VanillaTilt from "vanilla-tilt";
 import { DataverseContext } from "../context/Context";
 import { ToggleContext } from "../context/ToggleContext";
-import { WalletContext } from "../context/WalletContext";
+
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -21,7 +21,7 @@ interface ProfileCardProps {
 
 function ChatProfileCard(props: ProfileCardProps) {
   const { setToggle } = useContext(ToggleContext);
-  const { setPeerAddress } = useContext(WalletContext);
+  
   return (
     <div
       className={
@@ -45,10 +45,10 @@ function ChatProfileCard(props: ProfileCardProps) {
             height={100}
             alt="GoButton"
             className="hover:scale-110 transition duration-300 ease-in-out"
-            onClick={() => {
-              setPeerAddress(props.address);
-              setToggle(false);
-            }}
+            // onClick={() => {
+            //   setPeerAddress(props.address);
+            //   setToggle(false);
+            // }}
           />
         </div>
         <div>

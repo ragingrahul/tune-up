@@ -9,7 +9,7 @@ import VanillaTilt from "vanilla-tilt";
 import MessageDialog from "./MessageDialog";
 import { DataverseContext } from "../context/Context";
 import { ToggleContext } from "../context/ToggleContext";
-import { WalletContext } from "../context/WalletContext";
+
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -19,8 +19,7 @@ const myFont = localFont({
 interface ChatMenuProps { }
 
 function ChatMenu(props: ChatMenuProps) {
-  const { messages, loadConversation, sendMessage, xmtp } =
-    useContext(WalletContext);
+  
   const { setToggle } = useContext(ToggleContext);
   const [typeMessage, setTypeMessage] = React.useState<string>("");
   const {runtimeConnector}=useContext(DataverseContext)
@@ -88,9 +87,9 @@ function ChatMenu(props: ChatMenuProps) {
         ></input>
         <div
           className=" hover:bg-slate-400/10 group h-[60%] w-[15%] rounded-[15px] flex items-center justify-center transition duration-300 ease-in-out"
-          onClick={() => {
-            if (typeMessage.length > 0) sendMessage(typeMessage);
-          }}
+          // onClick={() => {
+          //   if (typeMessage.length > 0) sendMessage(typeMessage);
+          // }}
         >
           <Image
             src="/SendIcon.svg"
@@ -102,12 +101,12 @@ function ChatMenu(props: ChatMenuProps) {
         </div>
       </div>
       <div className="h-fit w-[500px] mt-[350px] flex flex-col items-center justify-center px-5">
-        {messages.map((message) => (
+        {/* {messages.map((message) => (
           <MessageDialog
             message={message.content}
             isYou={message.senderAddress === xmtp?.address}
           />
-        ))}
+        ))} */}
       </div>
     </>
   );

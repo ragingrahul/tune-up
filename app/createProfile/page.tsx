@@ -76,7 +76,7 @@ function page() {
     );
     setIsLoading(false);
     console.log(res);
-    window.location.href = "/profile";
+    window.location.href = "/mainfeed";
   };
 
   const getProfiles = async () => {

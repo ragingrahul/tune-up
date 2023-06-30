@@ -44,13 +44,11 @@ function page() {
     setIsLoading(true);
     const pkh = await getCurrentPkh();
     const res = await loadStreams({
-      modelId:
-        modelId,
+      modelId: modelId,
     });
     const res1 = await loadStreams({
       pkh: pkh,
-      modelId:
-        modelId,
+      modelId: modelId,
     });
     setProfile(res);
     const ownerResult = objectToArray(res1)[0]?.addresses;
@@ -110,7 +108,7 @@ function page() {
           />
         ))}
         <h1 className="mt-4 font-sans text-center">
-          Chats are initiated when <br />
+          Matches are initiated when <br />
           both of you liked each <br />
           other
         </h1>
@@ -154,7 +152,7 @@ function page() {
       <LoadingProp
         isLoading={isLoading}
         title="Fetching"
-        desc="Fecthing Profiles"
+        desc="Fetching Profiles"
       />
     </div>
   );

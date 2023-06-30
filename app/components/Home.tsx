@@ -8,8 +8,8 @@ import { DataverseContext } from "@/app/context/Context";
 import { useWallet, useStream } from "../hooks";
 import VanillaTilt from "vanilla-tilt";
 import LoadingProp from "./LoadingScreen";
-import { WalletContext } from "../context/WalletContext";
 import { modelId } from "../utils/constants";
+import { PolybaseContext } from "../context/PolybaseContext";
 
 const myFont = localFont({
   src: "../fonts/Chillax-Bold.ttf",
@@ -27,8 +27,11 @@ function HomePage() {
   const { wallet, connectWallet, getCurrentPkh } = useWallet();
   const { createCapability, checkCapability, loadStreams } = useStream();
   const { runtimeConnector, setOwnProfile } = useContext(DataverseContext);
-  const { connectToClient } = useContext(WalletContext);
+  const { init, fetchCollection, fetchConversion, db } =
+    useContext(PolybaseContext);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(true);
 
   const connect = async () => {
     try {
@@ -60,7 +63,7 @@ function HomePage() {
 
       const res = await loadStreams({
         pkh: pkh,
-        modelId:modelId,
+        modelId: modelId,
       });
       setOwnProfile(res);
       setIsLoading(false);
@@ -76,7 +79,9 @@ function HomePage() {
   };
 
   useEffect(() => {
-    connect();
+    connect().then((res) => {
+      setIsConnecting(false);
+    });
   }, [runtimeConnector]);
 
   useEffect(() => {
@@ -142,6 +147,11 @@ function HomePage() {
         isLoading={isLoading}
         title="Launching"
         desc="Fetching Account details..."
+      />
+      <LoadingProp
+        isLoading={isConnecting}
+        title="Connecting"
+        desc="Connecting with Wallet..."
       />
     </div>
   );

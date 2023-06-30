@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@dataverse/runtime-connector": "^1.0.57",
+    "@polybase/auth": "^0.6.2",
+    "@polybase/client": "^0.6.2",
+    "@polybase/react": "^0.6.2",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.2.6",
     "@types/react": "18.2.9",

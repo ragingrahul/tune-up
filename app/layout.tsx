@@ -1,11 +1,18 @@
+"use client";
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
-import { DataverseProvider } from "@/app/context/Context";
+import { DataverseContext, DataverseProvider } from "@/app/context/Context";
 import { ToggleProvider } from "./context/ToggleContext";
-import { WalletProvider } from "./context/WalletContext";
+import { Polybase, SignerResponse } from "@polybase/client";
+import { Auth } from "@polybase/auth";
+import { useContext } from "react";
+import { SignMethod } from "@dataverse/runtime-connector";
+import { PolybaseProvider } from "./context/PolybaseContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto_Mono({ subsets: ["latin"] });
+
+const auth = typeof window !== "undefined" ? new Auth() : null;
 
 export const metadata = {
   title: "Match",
@@ -18,15 +25,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { runtimeConnector } = useContext(DataverseContext);
+
   return (
     <DataverseProvider>
-      <WalletProvider>
-        <ToggleProvider>
-          <html lang="en">
-            <body className={`${roboto.className} bg-black`}>{children}</body>
-          </html>
-        </ToggleProvider>
-      </WalletProvider>
+      <ToggleProvider>
+        <html lang="en">
+          <body className={`${roboto.className} bg-black`}>{children}</body>
+        </html>
+      </ToggleProvider>
     </DataverseProvider>
   );
 }

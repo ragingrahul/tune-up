@@ -4,16 +4,17 @@ import localFont from "next/font/local";
 import Image from "next/image";
 import { BiPlus } from "react-icons/bi";
 import styles from "../Main.module.css";
-import { useStream, saveToIPFS, useWallet } from "../hooks";
-import { DataverseContext } from "../context/Context";
-import LikeButton from "../components/LikeButton";
-import { objectToArray } from "../utils/address";
-import LoadingProp from "../components/LoadingScreen";
-import BottomNavbar from "../components/BottomNavbar";
-import { modelId } from "../utils/constants";
+import { useStream, saveToIPFS, useWallet } from "../../hooks";
+import { DataverseContext } from "../../context/Context";
+import LikeButton from "../../components/LikeButton";
+import { objectToArray } from "../../utils/address";
+import LoadingProp from "../../components/LoadingScreen";
+import BottomNavbar from "../../components/BottomNavbar";
+import { modelId } from "../../utils/constants";
+import { useParams } from "next/navigation";
 
 const myFont = localFont({
-  src: "../fonts/Chillax-Bold.ttf",
+  src: "../../fonts/Chillax-Bold.ttf",
   display: "swap",
 });
 
@@ -24,19 +25,19 @@ function page() {
   const { getCurrentPkh } = useWallet();
   const { runtimeConnector, ownProfile } = useContext(DataverseContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [pkh, setPkh] = useState<string>();
+  const params = useParams();
+  const [pkh, setPkh] = useState<string | undefined>();
 
-  const getProfiles = async () => {
+  const getProfiles = async (pkh: string) => {
     setIsLoading(true);
-    const pkh = await getCurrentPkh();
+
     if (pkh) {
       const res = await loadStreams({
-        pkh: pkh,
-        modelId:
-          modelId,
+        pkh: pkh.replaceAll("%3A", ":"),
+        modelId: modelId,
       });
-
-      //console.log(res)
+      console.log(pkh.replaceAll("%3A", ":"));
+      console.log(res);
       const result = objectToArray(res);
       console.log(result);
       setIsLoading(false);
@@ -49,7 +50,6 @@ function page() {
     const res = await checkCapability();
     if (res) {
       const pkh = await getCurrentPkh();
-      setPkh(pkh);
       console.log(pkh);
     }
     setIsLoading(false);
@@ -58,8 +58,10 @@ function page() {
 
   useEffect(() => {
     isConnected();
-    getProfiles();
-  }, [runtimeConnector]);
+    const pkh = params.slug as string;
+    setPkh(pkh);
+    if (pkh) getProfiles(pkh);
+  }, [runtimeConnector, pkh]);
 
   return (
     <div

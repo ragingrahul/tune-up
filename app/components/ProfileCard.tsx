@@ -7,7 +7,7 @@ import VanillaTilt from "vanilla-tilt";
 import { useStream, useWallet } from "../hooks";
 import { getAddressFromDid } from "../utils/address";
 import { objectToArray } from "../utils/address";
-import { RuntimeConnector,StreamContent } from "@dataverse/runtime-connector";
+import { RuntimeConnector, StreamContent } from "@dataverse/runtime-connector";
 import { DataverseContext } from "../context/Context";
 import { modelId } from "../utils/constants";
 
@@ -23,7 +23,8 @@ interface ProfileCardProps {
   streamId: string;
   pkh: string;
 }
-type StreamRecord = Record<string,
+type StreamRecord = Record<
+  string,
   {
     app: string;
     modelId: string;
@@ -33,77 +34,100 @@ type StreamRecord = Record<string,
       content?: any;
     };
   }
->
+>;
 
 function ProfileCard(props: ProfileCardProps) {
   const [liked, setLiked] = React.useState(false);
-  const { getCurrentPkh } = useWallet()
-  const { loadStreamsByStreamId, updatePublicStream, loadStreams } = useStream()
-  const { runtimeConnector } = useContext(DataverseContext)
-  const [LikedList, setLikedList] = useState<Array<string>>()
-  const [pkh,setPkh]=useState<string>()
-  const [ownerProfile,setOwnerProfile] = useState<StreamContent>()
-  const [ownerStream,setOwnerStream] = useState<string>()
+  const { getCurrentPkh } = useWallet();
+  const { loadStreamsByStreamId, updatePublicStream, loadStreams } =
+    useStream();
+  const { runtimeConnector } = useContext(DataverseContext);
+  const [LikedList, setLikedList] = useState<Array<string>>();
+  const [pkh, setPkh] = useState<string>();
+  const [ownerProfile, setOwnerProfile] = useState<StreamContent>();
+  const [ownerStream, setOwnerStream] = useState<string>();
 
   const getProfiles = async () => {
     const pkh = await getCurrentPkh();
     setPkh(pkh);
     const res = await loadStreams({
       pkh: pkh,
-      modelId: modelId
-    })
-    
-   
+      modelId: modelId,
+    });
+
     if (res) {
-      const result:StreamContent = objectToArray(res)
-      const id=Object.keys(res)[0]
-      setOwnerStream(id)
-      setOwnerProfile(result)
-      const likedAddresses:Array<string> = result[0].addresses
-      console.log(props.pkh)
-      const ifLiked = likedAddresses?.filter((address) => address === props.pkh)
-      setLikedList(ifLiked)
+      const result: StreamContent = objectToArray(res);
+      const id = Object.keys(res)[0];
+      setOwnerStream(id);
+      setOwnerProfile(result);
+      const likedAddresses: Array<string> = result[0].addresses;
+      console.log(props.pkh);
+      const ifLiked = likedAddresses?.filter(
+        (address) => address === props.pkh
+      );
+      setLikedList(ifLiked);
       //console.log(ifLiked)
       if (ifLiked?.length > 0) {
-        setLiked(true)
+        setLiked(true);
       }
     }
-  }
+  };
 
   const fetchAddress = async () => {
-    console.log(props.streamId, props.name)
-    
-    const res = await loadStreamsByStreamId(props.streamId)
-    if(ownerProfile){
-    const content = ownerProfile[0]?.addresses
-    // console.log(content)
-    const likedAddress = [...content, res?.pkh]
-    // console.log(likedAddress)
-    // console.log(LikedList?.length)
-    console.log(ownerProfile)
-    console.log(pkh)
-    if (LikedList && pkh && ownerProfile && ownerStream) {
-      if (LikedList?.length === 0) {
-        const stream = await updatePublicStream(ownerProfile[0].name, ownerProfile[0].description, ownerProfile[0].images[0], ownerProfile[0].gender, ownerProfile[0].age, pkh, likedAddress,ownerStream, ownerProfile[0].createdAt)
-        console.log(stream)
-        getProfiles()
-      }
-      else{
-        const addressList: Array<string>=ownerProfile[0]?.addresses
-        console.log(addressList)
-        const unlikedAddress=addressList.filter((address) =>address !== props.pkh)
-        console.log(unlikedAddress)
-        const stream = await updatePublicStream(ownerProfile[0].name, ownerProfile[0].description, ownerProfile[0].images[0], ownerProfile[0].gender, ownerProfile[0].age, pkh, unlikedAddress,ownerStream, ownerProfile[0].createdAt)
-        console.log(stream)
-        getProfiles()
+    console.log(props.streamId, props.name);
+
+    const res = await loadStreamsByStreamId(props.streamId);
+    if (ownerProfile) {
+      const content = ownerProfile[0]?.addresses;
+      // console.log(content)
+      const likedAddress = [...content, res?.pkh];
+      // console.log(likedAddress)
+      // console.log(LikedList?.length)
+      console.log(ownerProfile);
+      console.log(pkh);
+      if (LikedList && pkh && ownerProfile && ownerStream) {
+        if (LikedList?.length === 0) {
+          const stream = await updatePublicStream(
+            ownerProfile[0].name,
+            ownerProfile[0].description,
+            ownerProfile[0].images[0],
+            ownerProfile[0].gender,
+            ownerProfile[0].age,
+            pkh,
+            likedAddress,
+            ownerStream,
+            ownerProfile[0].createdAt
+          );
+          console.log(stream);
+          getProfiles();
+        } else {
+          const addressList: Array<string> = ownerProfile[0]?.addresses;
+          console.log(addressList);
+          const unlikedAddress = addressList.filter(
+            (address) => address !== props.pkh
+          );
+          console.log(unlikedAddress);
+          const stream = await updatePublicStream(
+            ownerProfile[0].name,
+            ownerProfile[0].description,
+            ownerProfile[0].images[0],
+            ownerProfile[0].gender,
+            ownerProfile[0].age,
+            pkh,
+            unlikedAddress,
+            ownerStream,
+            ownerProfile[0].createdAt
+          );
+          console.log(stream);
+          getProfiles();
+        }
       }
     }
-  }
-  }
+  };
 
   useEffect(() => {
-    getProfiles()
-  }, [runtimeConnector])
+    getProfiles();
+  }, [runtimeConnector]);
 
   return (
     <div
@@ -127,6 +151,10 @@ function ProfileCard(props: ProfileCardProps) {
             <LikeButton setLiked={setLiked} liked={liked} />
           </div>
         </div>
+        <div
+          className="h-full w-full hover:cursor-pointer"
+          onClick={() => (window.location.href = `/profile/${props.pkh}`)}
+        ></div>
         <div>
           <h1 className="text-white p-8 text-[50px]">{props.name}</h1>
         </div>

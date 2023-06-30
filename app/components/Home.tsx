@@ -31,6 +31,7 @@ function HomePage() {
     useContext(PolybaseContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(true);
 
   const connect = async () => {
     try {
@@ -55,33 +56,31 @@ function HomePage() {
   };
 
   const handleLaunch = async () => {
-    const collection = await db.collection("MatchSchema").get();
-    console.log("collection:", collection);
-    // try {
-    //   if (!pkh) console.log("Connect 1st");
-    //   // console.log(pkh)
-    //   setIsLoading(true);
+    try {
+      if (!pkh) console.log("Connect 1st");
+      // console.log(pkh)
+      setIsLoading(true);
 
-    //   const res = await loadStreams({
-    //     pkh: pkh,
-    //     modelId: modelId,
-    //   });
-    //   setOwnProfile(res);
-    //   setIsLoading(false);
-    //   if (isEmpty(res)) {
-    //     console.log("Not present");
-    //     window.location.href = "/createProfile";
-    //   } else {
-    //     window.location.href = "/mainfeed";
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      const res = await loadStreams({
+        pkh: pkh,
+        modelId: modelId,
+      });
+      setOwnProfile(res);
+      setIsLoading(false);
+      if (isEmpty(res)) {
+        console.log("Not present");
+        window.location.href = "/createProfile";
+      } else {
+        window.location.href = "/mainfeed";
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     connect().then((res) => {
-      init();
+      setIsConnecting(false);
     });
   }, [runtimeConnector]);
 
@@ -148,6 +147,11 @@ function HomePage() {
         isLoading={isLoading}
         title="Launching"
         desc="Fetching Account details..."
+      />
+      <LoadingProp
+        isLoading={isConnecting}
+        title="Connecting"
+        desc="Connecting with Wallet..."
       />
     </div>
   );

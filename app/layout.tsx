@@ -29,13 +29,11 @@ export default function RootLayout({
 
   return (
     <DataverseProvider>
-      <PolybaseProvider>
-        <ToggleProvider>
-          <html lang="en">
-            <body className={`${roboto.className} bg-black`}>{children}</body>
-          </html>
-        </ToggleProvider>
-      </PolybaseProvider>
+      <ToggleProvider>
+        <html lang="en">
+          <body className={`${roboto.className} bg-black`}>{children}</body>
+        </html>
+      </ToggleProvider>
     </DataverseProvider>
   );
 }
